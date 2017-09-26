@@ -62,12 +62,10 @@ vector<string> split(const string str, const string sep) {
     vector<string> sepList;
 
     if(str == sep) {
-        cout << "input-string equals seperator" << endl;
-        sepList.push_back(str);
         return sepList;
     }
     if(str.find(sep) == string::npos) {
-        cout << "not a single seperator found in input-string" << endl;
+        sepList.push_back(str);
         return sepList;
     }
 

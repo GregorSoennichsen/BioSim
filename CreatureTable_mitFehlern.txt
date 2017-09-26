@@ -1,47 +1,44 @@
-Algen,2,0,1000,Wasserbewohner Pflanze Gruen,wasser/plankton.jpg
+Algen,2,0,1000,Wasserbewohner Pflanze Gruen,wasser/plankton.tga
 
-Seetang,3.5,0,800,Wasserbewohner Pflanze,wasser/seetang.jpg
+Seetang,3.5,0,800,Wasserbewohner Pflanze,wasser/seetang.tga
 
-Plankton,1,0,Kurz,Wasserbewohner Pflanze,wasser/plankton.jpg
+Plankton,1,0,Kurz,Wasserbewohner Pflanze,wasser/plankton.tga
 
-Gras,2,0,500,Landbewohner Pflanze,land/gras.jpg
+Gras,2,0,500,Landbewohner Pflanze,land/gras.tga
 
 
-Kaktus,5,0,1200, landbewohner            pflanze,land/kaktus.jpg
+Kaktus,5,0,1200, landbewohner            pflanze,land/kaktus.tga
+Gebüsch,7,0,1500,Landbewohner Pflanze,land/busch.tga
+Sonnenblume,4,0,600,Landbewohner Pflanze,land/blumen_wiese/sonnenblume.tga
 
-Gebüsch,7,0,1500,Landbewohner Pflanze,land/busch.jpg
+Eiche,20,0,1800,Landbewohner Pflanze,land/eiche.tga
 
-Sonnenblume,4,0,600,Landbewohner Pflanze,land/blumen_wiese/sonnenblume.jpg
+Obstbaum,10,0,1500,Landbewohner,Pflanze,/home/bilder/birne.tga
+Tannenbaum,10,0,2000,Landbewohner Pflanze,land/tanne.tga
 
-Eiche,20,0,1800,Landbewohner Pflanze,land/eiche.jpg
-
-Obstbaum,10,0,1500,Landbewohner,Pflanze,/home/bilder/birne.jpg
-Tannenbaum,10,0,2000,Landbewohner Pflanze,land/tanne.jpg
-
-Wels,50,40,,nix,wasser/wels.jpg
+Wels,50,40,,nix,wasser/wels.tga
 
 Forelle,30,70,300,Wasserbewohner Pflanzenfresser
 
-Krabbe,80,30,450,Wasserbewohner Pflanzenfresser,wasser//krabbe.jpg
+Krabbe,80,30,450,Wasserbewohner Pflanzenfresser,wasser//krabbe.tga
 
-Hai,120,,75,600,Wasserbewohner Fleischfresser,wasser/hai.jpg
+Hai,120,,75,600,Wasserbewohner Fleischfresser,wasser/hai.tga
+Delphin,80,80,800,,land/delphin.tga
 
-Delphin,80,80,800,,land/delphin.jpg
+Kuh,120,25,600,Landbewohner Pflanzenfresser,land/kuh.tga
 
-Kuh,120,25,600,Landbewohner Pflanzenfresser,land/kuh.jpg
+Pferd,140,120,550,Landbewohner Pflanzenfresser,land/pferd.tga
 
-Pferd,140,120,550,Landbewohner Pflanzenfresser,land/pferd.jpg
-
-Emu,70,180,350,  Landbewohner  ,land/emu.jpg
+Emu,70,180,350,  Landbewohner  ,land/emu.tga
 
         
-Schaf,70,30,400,Landbewohner Pflanzenfresser Ängstlich,land/schaf.jpg
+Schaf,70,30,400,Landbewohner Pflanzenfresser Ängstlich,land/schaf.tga
 
-Hund,100,50,700,Landbewohner Fleischfresser,land/hund.jpg\n
+Hund,100,50,700,Landbewohner Fleischfresser,land/hund.tga\n
 
-Bär,250,30,650,Landbewohner Fleischfresser Brummt,../land/ursus.jpg
+Bär,250,30,650,Landbewohner Fleischfresser Brummt,../land/ursus.tga
 ,
-Tiger,90,200,600,Landbewohner Fleischfresser,land/tiger.jpg
+Tiger,90,200,600,Landbewohner Fleischfresser,land/tiger.tga
 
   ,   
 

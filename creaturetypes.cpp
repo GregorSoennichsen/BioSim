@@ -34,11 +34,16 @@ CreatureTypes::CreatureTypes(const string fileName) {
 
     vector<string> data = getFileLines(fileName);
     STATUS_NUMBER_OF_LINES = data.size();
-    int t1, t2, t3;
+
     unsigned int i;
     for(i=0; i<data.size(); i++) {
 
         vector<string> line = split(data[i], ",");
+
+        if(line.size() != 6) {
+            cout << "line " << i+1 << ": no valid number of arguments in the line" << endl;
+            continue;
+        }
         CreaTyp type;
 
         // get the Creatue Type's name
@@ -48,7 +53,7 @@ CreatureTypes::CreatureTypes(const string fileName) {
             cout << "line " << i+1 << ": name may not be empty" << endl;
             continue;
         }
-        if(type.name.find_first_of("abcdefghijklmnopqrstuvwxyz ") == string::npos) {
+        if(type.name.find_first_not_of("abcdefghijklmnopqrstuvwxyz ") != string::npos) {
             cout << "line " << i+1 << ": name has to contain only whitespaces and alphabetic characters" << endl;
             continue;
         }
@@ -56,9 +61,14 @@ CreatureTypes::CreatureTypes(const string fileName) {
         // get the Creatue Type's strength, speed and lifetime
 
         try {
-            t1 = stoi(line[1]);
-            t2 = stoi(line[2]);
-            t3 = stoi(line[3]);
+            if(line[1].find_first_not_of("0123456789") != string::npos ||
+               line[2].find_first_not_of("0123456789") != string::npos ||
+               line[3].find_first_not_of("0123456789") != string::npos)
+                throw invalid_argument("");
+
+            int t1 = stoi(line[1]);
+            int t2 = stoi(line[2]);
+            int t3 = stoi(line[3]);
 
             if(t1 < 0 || t2 < 0 || t3 < 0)
                 throw invalid_argument("");
@@ -68,7 +78,7 @@ CreatureTypes::CreatureTypes(const string fileName) {
             type.lifetime = t3;
         }
         catch (const invalid_argument& e) {
-            cout << "line " << i+1 << ": strength-, speed- or lifetime-number was no positive number" << endl;
+            cout << "line " << i+1 << ": strength-, speed- or lifetime-number was no positive integer" << endl;
             continue;
         }
         catch (const out_of_range& e) {
@@ -80,16 +90,24 @@ CreatureTypes::CreatureTypes(const string fileName) {
 
         vector<string> props_data = split(line[4]," ");
         set<string> props;
-        string t;
+
         bool _break = false;
-        unsigned int i;
-        for(i=0; i<props_data.size() && !_break; i++)
-            t = stringTOlower(props_data[i]);
-            if(t.find_first_of("abcdefghijklmnopqrstuvwxyz ") == string::npos) {
-                cout << "line " << i+1 << ": a single properity has to contain only whitespaces and alphabetic characters" << endl;
+        unsigned int j;
+        for(j=0; j<props_data.size(); j++) {
+            string t = stringTOlower(props_data[j]);
+            if(t.find_first_of("abcdefghijklmnopqrstuvwxyz") == string::npos) {
+                cout << "line " << i+1 << ": a single properity has to contain (only) alphabetic characters" << endl;
                 _break = true;
+                break;
             }
             props.insert(t);
+        }
+        if(props_data.empty()) {
+            type.properities = props;
+            _break = false;
+        }
+        if(_break)
+            continue;
         type.properities = props;
 
         // get the Creatue Type's image-filepath
@@ -109,7 +127,7 @@ CreatureTypes::CreatureTypes(const string fileName) {
     cout << "number of lines:\t\t"              << STATUS_NUMBER_OF_LINES << endl;
     cout << "successfull read operations:\t"    << STATUS_READ_LINES << endl;
     cout << "failed read operations:\t\t"       << STATUS_NUMBER_OF_LINES - STATUS_READ_LINES << endl;
-    cout << "--------" << endl;
+    cout << "--------" << endl << endl;
 
 }
 
@@ -177,9 +195,12 @@ string CreatureTypes::getText() {
     string text;
     unsigned int i;
     for(i=0; i<types.size(); i++) {
-        text += types[i].name;
-        if(i != types.size()-1)
-            text += "\n";
+        text += "Name:\t\t" +     types[i].name + "\n";
+        text += "Strength:\t" + to_string(types[i].strength) + "\n";
+        text += "Speed:\t\t" +    to_string(types[i].speed) + "\n";
+        text += "Lifetime:\t" + to_string(types[i].lifetime) + "\n";
+        text += "Image:\t\t" +    types[i].image;
+        text += "\n\n";
     }
     return text;
 }

@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     }
 
     CreatureTypes creatureTypes(argv[1]);
-    //cout << creatureTypes.getText() << endl;
+    cout << creatureTypes.getText() << endl;
 
     return 0;
 }
