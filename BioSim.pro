@@ -8,7 +8,29 @@ SOURCES += \
     extractdata.cpp \
     creaturetypes.cpp
 
-DISTFILES +=
+DISTFILES += \
+    images/land/birne.tga \
+    images/land/busch.tga \
+    images/land/eiche.tga \
+    images/land/emu.tga \
+    images/land/gras.tga \
+    images/land/hund.tga \
+    images/land/kaktus.tga \
+    images/land/kuh.tga \
+    images/land/pferd.tga \
+    images/land/schaf.tga \
+    images/land/sonnenblume.tga \
+    images/land/tanne.tga \
+    images/land/tiger.tga \
+    images/land/ursus.tga \
+    images/wasser/algen.tga \
+    images/wasser/delphin.tga \
+    images/wasser/forelle.tga \
+    images/wasser/hai.tga \
+    images/wasser/krabbe.tga \
+    images/wasser/plankton.tga \
+    images/wasser/seetang.tga \
+    images/wasser/wels.tga
 
 HEADERS += \
     extractdata.hpp \

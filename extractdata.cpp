@@ -15,11 +15,19 @@
 using namespace std;
 
 
-vector<string> getFileLines(const string fileName) {
+
+/**
+ * @brief getFileLines      Procedure to read a file into a vector.
+ * @param filePath          The filepath that contains the informations.
+ *
+ * Reads the informations of the file line by line into a vector. Throws errors if the file
+ * could not be opened or read.
+ */
+vector<string> getFileLines(const string filePath) {
 
     vector<string> lines;
     string line;
-    ifstream myFile(fileName);
+    ifstream myFile(filePath);
 
     if(!myFile.is_open())
         throw "file could not be opened";
@@ -39,6 +47,16 @@ vector<string> getFileLines(const string fileName) {
 }
 
 
+
+/**
+ * @brief split             Procedure to split a string into a vector.
+ * @param str               The string that has to be splitted.
+ * @param sep               A string that seperates parts of the string.
+ *
+ * Splits a string into a vector of strings by cutting at positions,
+ * where the separator is found. Ocurring errors are printed on the
+ * console.
+ */
 vector<string> split(const string str, const string sep) {
 
     vector<string> sepList;
