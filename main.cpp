@@ -10,7 +10,7 @@
 #include <vector>
 
 #include "creaturetypes.hpp"
-#include "extractdata.hpp"
+#include "tgaloader.hpp"
 
 using namespace std;
 
@@ -23,7 +23,12 @@ int main(int argc, char *argv[])
     }
 
     CreatureTypes creatureTypes(argv[1]);
-    cout << creatureTypes.getText() << endl;
+
+    cout << endl;
+
+    loadTGA("images/land/tanne.tga");
+
+    cout << endl;
 
     return 0;
 }
