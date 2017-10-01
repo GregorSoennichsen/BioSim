@@ -6,7 +6,7 @@
  */
 
 #include <string>
-#include <stdio.h>
+#include <fstream>
 #include <iostream>
 
 #include "tgaloader.hpp"
@@ -18,9 +18,9 @@ using namespace std;
 
 void loadTGA(string filePath) {
 
-    FILE *myFile = fopen(filePath.c_str(), "rb");
+    ifstream myFile(filePath);
 
-    struct tgaHeader header = readTGAHeader(myFile);
+    struct tgaHeader header = readTGAHeader(&myFile);
     printTGAHeader(&header);
 
     if(header.imageIDlength!=0 || header.colormapType!=0 || header.colormapBegin!=0 ||
@@ -28,7 +28,7 @@ void loadTGA(string filePath) {
        header.yOrigin!=0       || !(header.bitsPerPoint==24 || header.bitsPerPoint==32))
     {
         cout << "Image format is not supported." << endl;
-        fclose(myFile);
+        myFile.close();
         return;
     }
 
@@ -39,32 +39,36 @@ void loadTGA(string filePath) {
     unsigned long long imSize    = ((long long) header.width) * header.height * bytesPerPoint;
 
     unsigned char *imData = new unsigned char[imSize];
-    fread(imData, sizeof(char), 1, myFile);
+    myFile.read((char *) imData, imSize);
     delete[] imData;
 
     // Further Meta-Data following the image data are ignored.
 
-    fclose(myFile);
+    myFile.close();
 }
 
 
 
-struct tgaHeader readTGAHeader(FILE *myFile) {
+struct tgaHeader readTGAHeader(ifstream *myFile) {
 
     struct tgaHeader header;
 
-    fread(&header.imageIDlength, sizeof(unsigned char), 1, myFile);
-    fread(&header.colormapType, sizeof(unsigned char), 1, myFile);
-    fread(&header.imageType, sizeof(unsigned char), 1, myFile);
-    fread(&header.colormapBegin, sizeof(short int), 1, myFile);
-    fread(&header.colormapLength, sizeof(short int), 1, myFile);
-    fread(&header.sizeOfEntryInPallette, sizeof(unsigned char), 1, myFile);
-    fread(&header.xOrigin, sizeof(short int), 1, myFile);
-    fread(&header.yOrigin, sizeof(short int), 1, myFile);
-    fread(&header.width, sizeof(short int), 1, myFile);
-    fread(&header.height, sizeof(short int), 1, myFile);
-    fread(&header.bitsPerPoint, sizeof(unsigned char), 1, myFile);
-    fread(&header.attributeByte, sizeof(unsigned char), 1, myFile);
+    myFile->read((char *) &header.imageIDlength, sizeof(unsigned char));
+    myFile->read((char *) &header.colormapType, sizeof(unsigned char));
+    myFile->read((char *) &header.imageType, sizeof(unsigned char));
+
+    myFile->read((char *) &header.colormapBegin, sizeof(short int));
+    myFile->read((char *) &header.colormapLength, sizeof(short int));
+
+    myFile->read((char *) &header.sizeOfEntryInPallette, sizeof(unsigned char));
+
+    myFile->read((char *) &header.xOrigin, sizeof(short int));
+    myFile->read((char *) &header.yOrigin, sizeof(short int));
+    myFile->read((char *) &header.width, sizeof(short int));
+    myFile->read((char *) &header.height, sizeof(short int));
+
+    myFile->read((char *) &header.bitsPerPoint, sizeof(unsigned char));
+    myFile->read((char *) &header.attributeByte, sizeof(unsigned char));
 
     return header;
 

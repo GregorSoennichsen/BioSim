@@ -9,6 +9,7 @@
 #define TGALOADER_HPP
 
 #include <string>
+#include <fstream>
 
 using namespace std;
 
@@ -32,7 +33,7 @@ struct tgaHeader {
 };
 
 void loadTGA(string filePath);
-struct tgaHeader readTGAHeader(FILE *myFile);
+struct tgaHeader readTGAHeader(ifstream *myFile);
 void printTGAHeader(struct tgaHeader *header);
 
 
