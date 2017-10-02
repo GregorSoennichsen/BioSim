@@ -35,7 +35,7 @@ struct CreaTyp {
 /**
  * @brief CreatureTypes     Class to manage the creature types.
  *
- * In this class methods can be found to add, delete, access and initialize
+ * In this class, methods can be found to add, delete, access and initialize
  * all creature types. Internally a data structure saves all loaded informations.
  */
 class CreatureTypes{

@@ -9,6 +9,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <exception>
 
 #include "extractdata.hpp"
 
@@ -30,7 +31,7 @@ vector<string> getFileLines(const string filePath) {
     ifstream myFile(filePath);
 
     if(!myFile.is_open())
-        throw "file could not be opened";
+        throw runtime_error("creature types file could not be opened");
 
     while (getline(myFile, line)) {
         if(line != "") {
@@ -38,8 +39,8 @@ vector<string> getFileLines(const string filePath) {
         }
     }
 
-    if(myFile.fail())
-        throw "file could not be read";
+    if(!myFile)
+        throw runtime_error("creature types file could not be read");
 
     myFile.close();
     return lines;

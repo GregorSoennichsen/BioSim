@@ -10,6 +10,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <exception>
 
 #include "tgaimage.hpp"
 
@@ -19,29 +20,43 @@ using namespace std;
 
 /**
  * @brief TgaImage::TgaImage                Constructor that loads a tga image.
- * @param fileName                          Location of the tga image, that shall be loaded.
+ * @param fileName                          Location of the tga image that shall be loaded.
  *
+ * This constructor is supposed to load a tga image and save the informations in an
+ * internal data structure. The code is splitted into two sections:
+ * 1. the 18 header bits are managed
+ * 2. the pixel colors are read
+ * Each process is outsourced into a static method that reads the informations into
+ * a dynamically allocated struct (header informations) and a static two-dimensional
+ * array (the pixel colors).
+ * All meta data following the pixel colors are ignored.
  *
+ * There is just a specific tga format supported:
+ * - there may not be an image ID or an colormap
+ * - x- and yOrigin have to be each 0
+ * - only 24- and 32-bits per pixel are accepted
+ *
+ * Not supposed tga formats and errors ocurring while reading throw corresponding
+ * exceptions.
  */
 TgaImage::TgaImage(string filePath) {
 
     ifstream myFile(filePath);
 
     if(!myFile.is_open())
-        throw "file could not be opened";
+        throw runtime_error("file could not be opened");
 
     header = readTGAHeader(&myFile);
 
-    if(myFile.fail())
-        throw "tga header could not be read";
+    if(!myFile)
+        throw runtime_error("tga header could not be read");
 
     if(header->imageIDlength!=0  || header->colormapType!=0    || header->colormapBegin!=0 ||
        header->colormapLength!=0 || header->imageType!=2       || header->xOrigin!=0 ||
        header->yOrigin!=0        || !(header->bitsPerPoint==24 || header->bitsPerPoint==32))
     {
-        throw "image format is not supported";
         myFile.close();
-        return;
+        throw runtime_error("image format is not supported");
     }
 
     // Since only TGA-files with no Image-ID and no Pallette are supported,
@@ -49,14 +64,20 @@ TgaImage::TgaImage(string filePath) {
 
     pixels = readTGAPixels(&myFile, header);
 
-    if(myFile.fail())
-        throw "tga pixel could not be read";
+    if(!myFile)
+        throw runtime_error("tga pixel could not be read");
 
     myFile.close();
 }
 
 
 
+/**
+ * @brief TgaImage::~TgaImage               Destructor clearing allocated memory.
+ *
+ * The destructor simple clears the dynamic arrays storing the pixel colors and
+ * the tga header.
+ */
 TgaImage::~TgaImage() {
 
     for(uint16_t h=0; h<header->height; h++)
@@ -69,6 +90,13 @@ TgaImage::~TgaImage() {
 
 
 
+/**
+ * @brief TgaImage::readTGAHeader           Interprets the first 18 bytes of a tga image.
+ * @param myFile                            The stream to read the informations from.
+ *
+ * This static method reads the first 18 bytes of a stream and returns the interpreted
+ * informations as a tgaHeader struct.
+ */
 struct tgaHeader * TgaImage::readTGAHeader(ifstream *myFile) {
 
     struct tgaHeader *header = new struct tgaHeader;
@@ -96,6 +124,16 @@ struct tgaHeader * TgaImage::readTGAHeader(ifstream *myFile) {
 
 
 
+/**
+ * @brief TgaImage::readTGAPixels           Interprets the pixel colors of a tga image.
+ * @param myFile                            The stream to read the informations from.
+ * @param header                            Tga header containing data to read the pixel data.
+ *
+ * This static method reads the pixel colors following the first 18 bytes, the image ID and
+ * the colormap. Note that image ID and colormap are supposed to be not existent.
+ * Size and kind of the pixel colors are determined in the passed header, the informations
+ * are returned as a pointer on a two-dimensional array of vectors.
+ */
 vector<uint8_t> **TgaImage::readTGAPixels(ifstream *myFile, tgaHeader *header) {
 
     uint16_t bytesPerPoint = header->bitsPerPoint / 8;
@@ -111,7 +149,6 @@ vector<uint8_t> **TgaImage::readTGAPixels(ifstream *myFile, tgaHeader *header) {
     vector<uint8_t> **imData = new vector<uint8_t> *[header->height];
     for(uint16_t h=0; h<header->height; h++)
         imData[h] = new vector<uint8_t>[header->width];
-    //vector<uint8_t> imData[header.height][header.width];
 
     uint16_t h=0, w=0;
     unsigned long long i;
@@ -145,6 +182,11 @@ vector<uint8_t> **TgaImage::readTGAPixels(ifstream *myFile, tgaHeader *header) {
 
 
 
+/**
+ * @brief TgaImage::readTGAPixels           Prints the header informations of the loaded tga image..
+ *
+ * Gives a brief overview over all options stored in the tga header.
+ */
 void TgaImage::printTGAHeader() {
 
     cout << "Image-ID length:\t"    << (short) header->imageIDlength << endl;

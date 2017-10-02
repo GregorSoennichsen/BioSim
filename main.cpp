@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
         return 0;
     }
 
+    cout << argv[1] << endl; return 0;
     CreatureTypes creatureTypes(argv[1]);
 
     cout << endl;

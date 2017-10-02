@@ -8,7 +8,7 @@
 #include <iostream>
 #include <string>
 #include <set>
-#include <stdexcept>
+#include <exception>
 
 #include "helpfunctions.hpp"
 #include "creaturetypes.hpp"
@@ -19,13 +19,17 @@ using namespace std;
 
 
 /**
- * @brief CreatureTypes::CreatureTypes      Constructor to initialize all CreatureTypes from one file.
- * @param fileName                          Filepath to load the CreatureTypes from.
+ * @brief CreatureTypes::CreatureTypes      Constructor to initialize all creature types from one file.
+ * @param fileName                          Filepath to load the creature types from.
  *
- * The Constructor loads all informations line by line from the specified file, where one line
- * represents one CreatureType. If an error is found in a line, a log is printed on the console
- * and the actual line will be skipped. Extracted CreatureTypes are saved in the internal
- * data structure.
+ * The constructor loads all informations line by line from the specified file, where one line
+ * represents one creature type. Every line is splitted by commatas and all entrys in the
+ * resulting vector are interpreted particular.
+ *
+ * If an error is found in a line, a log is printed on the console and the actual line will
+ * be skipped. Extracted creature types are saved in the internal data structure.
+ *
+ * In the end a short output containing some statistical informations is printed on the console.
  */
 CreatureTypes::CreatureTypes(const string fileName) {
 
@@ -46,7 +50,7 @@ CreatureTypes::CreatureTypes(const string fileName) {
         }
         CreaTyp type;
 
-        // get the Creatue Type's name
+        // get the creature type's name
 
         type.name = stringTOlower(line[0]);
         if(type.name == "") {
@@ -58,7 +62,7 @@ CreatureTypes::CreatureTypes(const string fileName) {
             continue;
         }
 
-        // get the Creatue Type's strength, speed and lifetime
+        // get the creature type's strength, speed and lifetime
 
         try {
             if(line[1].find_first_not_of("0123456789") != string::npos ||
@@ -86,7 +90,7 @@ CreatureTypes::CreatureTypes(const string fileName) {
             continue;
         }
 
-        // get the Creatue Type's properities
+        // get the creature type's properities
 
         vector<string> props_data = split(line[4]," ");
         set<string> props;
@@ -110,7 +114,7 @@ CreatureTypes::CreatureTypes(const string fileName) {
             continue;
         type.properities = props;
 
-        // get the Creatue Type's image-filepath
+        // get the creature type's image-filepath
 
         type.image = line[5];
         if(!isValidFilepath("images/"+type.image)) {
@@ -137,7 +141,7 @@ CreatureTypes::CreatureTypes(const string fileName) {
  * @brief CreatureTypes::addType            Method to add a type to the data structure.
  * @param type                              The creature type that has to be added.
  *
- * Simply adds the new entry.
+ * Simply adds a new entry.
  */
 void CreatureTypes::addType(CreaTyp type) {
 
@@ -147,10 +151,10 @@ void CreatureTypes::addType(CreaTyp type) {
 
 
 /**
- * @brief CreatureTypes::deleteType         Method to delete a type from the data structure.
+ * @brief CreatureTypes::deleteType         Method to delete a creature type from the data structure.
  * @param name                              The creature type that has to be deleted.
  *
- * Simply deletes the specified creature type. Throws an error, if the name was not found.
+ * Simply deletes the specified creaturetype. Throws an error, if the name was not found.
  */
 void CreatureTypes::deleteType(const string name) {
 
@@ -161,7 +165,7 @@ void CreatureTypes::deleteType(const string name) {
             return;
         }
     }
-    throw "name of creature type not found";
+    throw runtime_error("name of creature type not found");
 }
 
 
@@ -180,7 +184,7 @@ CreaTyp CreatureTypes::getInformation(const string name) {
             return types[i];
         }
     }
-    throw "name of creature type not found";
+    throw runtime_error("name of creature type not found");
 }
 
 
