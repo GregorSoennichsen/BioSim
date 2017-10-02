@@ -16,17 +16,30 @@
 using namespace std;
 
 
+
+/**
+ * @brief TgaImage::TgaImage                Constructor that loads a tga image.
+ * @param fileName                          Location of the tga image, that shall be loaded.
+ *
+ *
+ */
 TgaImage::TgaImage(string filePath) {
 
     ifstream myFile(filePath);
 
+    if(!myFile.is_open())
+        throw "file could not be opened";
+
     header = readTGAHeader(&myFile);
+
+    if(myFile.fail())
+        throw "tga header could not be read";
 
     if(header->imageIDlength!=0  || header->colormapType!=0    || header->colormapBegin!=0 ||
        header->colormapLength!=0 || header->imageType!=2       || header->xOrigin!=0 ||
        header->yOrigin!=0        || !(header->bitsPerPoint==24 || header->bitsPerPoint==32))
     {
-        cout << "Image format is not supported." << endl;
+        throw "image format is not supported";
         myFile.close();
         return;
     }
@@ -36,6 +49,10 @@ TgaImage::TgaImage(string filePath) {
 
     pixels = readTGAPixels(&myFile, header);
 
+    if(myFile.fail())
+        throw "tga pixel could not be read";
+
+    myFile.close();
 }
 
 

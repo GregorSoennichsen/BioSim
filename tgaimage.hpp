@@ -17,6 +17,11 @@ using namespace std;
 
 
 
+/**
+ * @brief tgaHeader       The representation of a tga header.
+ *
+ * This struct is meant to save meta-data of specific tga images.
+ */
 struct tgaHeader {
 
     uint8_t imageIDlength;
@@ -35,6 +40,13 @@ struct tgaHeader {
 };
 
 
+
+/**
+ * @brief TgaImage       Class to manage tga images.
+ *
+ * This class offers the possibility to load a tga image into
+ * the main memory.
+ */
 class TgaImage {
 
     public:
@@ -42,12 +54,12 @@ class TgaImage {
         TgaImage(string filePath);
         ~TgaImage();
 
-        static struct tgaHeader * readTGAHeader(ifstream *myFile);
-        static vector<uint8_t> **readTGAPixels(ifstream *myFile, tgaHeader *header);
-
         void printTGAHeader();
 
     private:
+
+        static struct tgaHeader * readTGAHeader(ifstream *myFile);
+        static vector<uint8_t> **readTGAPixels(ifstream *myFile, tgaHeader *header);
 
         tgaHeader * header;
         vector<uint8_t> **pixels;

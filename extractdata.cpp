@@ -38,7 +38,7 @@ vector<string> getFileLines(const string filePath) {
         }
     }
 
-    if(myFile.bad())
+    if(myFile.fail())
         throw "file could not be read";
 
     myFile.close();
