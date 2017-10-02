@@ -7,8 +7,8 @@ SOURCES += \
     main.cpp \
     extractdata.cpp \
     creaturetypes.cpp \
-    tgaloader.cpp \
-    helpfunctions.cpp
+    helpfunctions.cpp \
+    tgaimage.cpp
 
 DISTFILES += \
     images/land/birne.tga \
@@ -38,7 +38,7 @@ HEADERS += \
     extractdata.hpp \
     creaturetypes.hpp \
     helpfunctions.hpp \
-    tgaloader.hpp
+    tgaimage.hpp
 
 OTHER_FILES += \
     CreatureTable.txt \

@@ -10,7 +10,7 @@
 #include <vector>
 
 #include "creaturetypes.hpp"
-#include "tgaloader.hpp"
+#include "tgaimage.hpp"
 
 using namespace std;
 
@@ -26,7 +26,8 @@ int main(int argc, char *argv[])
 
     cout << endl;
 
-    loadTGA("images/land/tanne.tga");
+    TgaImage tanne("images/land/tanne.tga");
+    tanne.printTGAHeader();
 
     cout << endl;
 
