@@ -131,7 +131,7 @@ CreatureTypes::CreatureTypes(const string fileName) {
     cout << "number of lines:\t\t"              << STATUS_NUMBER_OF_LINES << endl;
     cout << "successfull read operations:\t"    << STATUS_READ_LINES << endl;
     cout << "failed read operations:\t\t"       << STATUS_NUMBER_OF_LINES - STATUS_READ_LINES << endl;
-    cout << "--------" << endl << endl;
+    cout << "--------" << endl;
 
 }
 

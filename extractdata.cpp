@@ -39,7 +39,7 @@ vector<string> getFileLines(const string filePath) {
         }
     }
 
-    if(!myFile)
+    if(myFile.bad())
         throw runtime_error("creature types file could not be read");
 
     myFile.close();

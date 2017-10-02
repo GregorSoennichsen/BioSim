@@ -48,7 +48,7 @@ TgaImage::TgaImage(string filePath) {
 
     header = readTGAHeader(&myFile);
 
-    if(!myFile)
+    if(myFile.bad())
         throw runtime_error("tga header could not be read");
 
     if(header->imageIDlength!=0  || header->colormapType!=0    || header->colormapBegin!=0 ||
@@ -64,7 +64,7 @@ TgaImage::TgaImage(string filePath) {
 
     pixels = readTGAPixels(&myFile, header);
 
-    if(!myFile)
+    if(myFile.bad())
         throw runtime_error("tga pixel could not be read");
 
     myFile.close();
@@ -189,6 +189,8 @@ vector<uint8_t> **TgaImage::readTGAPixels(ifstream *myFile, tgaHeader *header) {
  */
 void TgaImage::printTGAHeader() {
 
+
+    cout << "--------" << endl;
     cout << "Image-ID length:\t"    << (short) header->imageIDlength << endl;
     cout << "Color-Pallete type:\t" << (short) header->colormapType << endl;
     cout << "Imagetype:\t\t"        << (short) header->imageType << endl;
@@ -200,5 +202,6 @@ void TgaImage::printTGAHeader() {
     cout << "Image width:\t\t"      << header->width << endl;
     cout << "Image height:\t\t"     << header->height << endl;
     cout << "Bits per point:\t\t"   << (short) header->bitsPerPoint << endl;
+    cout << "--------" << endl;
 
 }
