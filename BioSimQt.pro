@@ -23,7 +23,8 @@ HEADERS  += mainwindow.hpp \
     stringFile_manip.hpp \
     tga_image.hpp
 
-FORMS    += mainwindow.ui
+FORMS    += \
+    mainwindow.ui
 
 DISTFILES += \
     images/land/birne.tga \
