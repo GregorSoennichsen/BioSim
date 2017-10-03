@@ -1,13 +1,29 @@
-TEMPLATE = app
-CONFIG += console c++11
-CONFIG -= app_bundle
-CONFIG -= qt
+#-------------------------------------------------
+#
+# Project created by QtCreator 2017-10-03T12:27:24
+#
+#-------------------------------------------------
 
-SOURCES += \
-    main.cpp \
-    tga_image.cpp \
+QT       += core gui
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+TARGET = BioSimQt
+TEMPLATE = app
+
+
+SOURCES += main.cpp\
+        mainwindow.cpp \
     creature_types.cpp \
-    stringFile_manip.cpp
+    stringFile_manip.cpp \
+    tga_image.cpp
+
+HEADERS  += mainwindow.hpp \
+    creature_types.hpp \
+    stringFile_manip.hpp \
+    tga_image.hpp
+
+FORMS    += mainwindow.ui
 
 DISTFILES += \
     images/land/birne.tga \
@@ -31,13 +47,6 @@ DISTFILES += \
     images/wasser/krabbe.tga \
     images/wasser/plankton.tga \
     images/wasser/seetang.tga \
-    images/wasser/wels.tga
-
-HEADERS += \
-    creature_types.hpp \
-    tga_image.hpp \
-    stringFile_manip.hpp
-
-OTHER_FILES += \
+    images/wasser/wels.tga \
     CreatureTable.txt \
     CreatureTable_mitFehlern.txt

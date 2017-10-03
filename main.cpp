@@ -1,9 +1,5 @@
-/*
- * main.cpp
- *
- *  Created on: 01.09.2017
- *      Author: Gregor Soennichsen
- */
+#include "mainwindow.hpp"
+#include <QApplication>
 
 #include <iostream>
 
@@ -22,8 +18,8 @@ using namespace std;
  * The main function gets the locations of the creature types as Parameter in the second
  * entry of argv. One instance of both CreatureTypes and TgaImage is created.
  */
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
+
     if(argc < 2) {
         cout << "not enough arguments to identify a filepath" << endl;
         return 0;
@@ -38,5 +34,10 @@ int main(int argc, char *argv[])
 
     cout << endl;
 
-    return 0;
+
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
+
+    return a.exec();
 }
