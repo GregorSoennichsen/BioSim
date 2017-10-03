@@ -42,7 +42,9 @@ class CreatureTypes{
 
     public:
 
-        CreatureTypes(const string fileName);
+        explicit CreatureTypes(const string fileName);
+        ~CreatureTypes();
+
         void addType(CreaTyp type);
         void deleteType(const string name);
         CreaTyp getInformation(const string name);
@@ -50,7 +52,10 @@ class CreatureTypes{
 
     private:
 
-        vector<CreaTyp> types;
+        CreatureTypes(const CreatureTypes &s);
+        CreatureTypes& operator=(const CreatureTypes &s);
+
+        vector<CreaTyp> *types;
 
 };
 

@@ -1,5 +1,5 @@
 /*
- * extractdata.h
+ * stringFile_manip.cpp
  *
  *  Created on: 26.09.2017
  *      Author: Gregor Soennichsen
@@ -25,11 +25,13 @@ using namespace std;
  * in lowercase.
  */
 string stringTOlower(const string str) {
+
     string strnew;
     unsigned int i;
-    for(i=0; i<str.size(); i++) {
+
+    for(i=0; i < str.size(); i++)
         strnew += tolower(str[i]);
-    }
+
     return strnew;
 }
 
@@ -42,7 +44,9 @@ string stringTOlower(const string str) {
  * Returns the informations, if the file is at the moment accesable.
  */
 bool isValidFilepath(const string filePath) {
+
     ifstream myFile(filePath);
+
     if(myFile.is_open())
         return true;
     else
@@ -67,7 +71,7 @@ vector<string> getFileLines(const string filePath) {
     if(!myFile.is_open())
         throw runtime_error("creature types file could not be opened");
 
-    while (getline(myFile, line)) {
+    while(getline(myFile, line)) {
         if(line != "") {
             lines.push_back(line);
         }
@@ -96,9 +100,9 @@ vector<string> split(const string str, const string sep) {
 
     vector<string> sepList;
 
-    if(str == sep) {
+    if(str == sep)
         return sepList;
-    }
+
     if(str.find(sep) == string::npos) {
         sepList.push_back(str);
         return sepList;
@@ -106,15 +110,13 @@ vector<string> split(const string str, const string sep) {
 
     int start = 0;
     for(unsigned int i=0; i<str.size(); i++) {
+        if(str.substr(i, sep.size()) == sep) {
 
-        if( str.substr(i, sep.size()) == sep) {
             sepList.push_back(str.substr(start, i-start));
-            if(start == 0) {
+            if(start == 0)
                 start = i+sep.size();
-            }
-            else {
+            else
                 start = i+1;
-            }
         }
     }
 

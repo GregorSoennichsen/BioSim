@@ -1,5 +1,5 @@
 /*
- * extractdata.h
+ * stringFile_manip.hpp
  *
  *  Created on: 01.09.2017
  *      Author: Gregor Soennichsen

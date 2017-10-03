@@ -1,5 +1,5 @@
 /*
- * tgaimage.hpp
+ * tga_image.hpp
  *
  *  Created on: 02.10.2017
  *      Author: Gregor Soennichsen
@@ -24,18 +24,18 @@ using namespace std;
  */
 struct tgaHeader {
 
-    uint8_t imageIDlength;
-    uint8_t colormapType;
-    uint8_t imageType;
-    uint16_t colormapBegin;
-    uint16_t colormapLength;
-    uint8_t  sizeOfEntryInPallette;
-    uint16_t xOrigin;
-    uint16_t yOrigin;
-    uint16_t width;
-    uint16_t height;
-    uint8_t bitsPerPoint;
-    uint8_t attributeByte;
+    uint8_t   imageIDlength;
+    uint8_t   colormapType;
+    uint8_t   imageType;
+    uint16_t  colormapBegin;
+    uint16_t  colormapLength;
+    uint8_t   sizeOfEntryInPallette;
+    uint16_t  xOrigin;
+    uint16_t  yOrigin;
+    uint16_t  width;
+    uint16_t  height;
+    uint8_t   bitsPerPoint;
+    uint8_t   attributeByte;
 
 };
 
@@ -51,17 +51,20 @@ class TgaImage {
 
     public:
 
-        TgaImage(string filePath);
+        explicit TgaImage(string filePath);
         ~TgaImage();
 
         void printTGAHeader();
 
     private:
 
-        static struct tgaHeader * readTGAHeader(ifstream *myFile);
+        TgaImage(const TgaImage& s);
+        TgaImage& operator=(const TgaImage& s);
+
+        static struct tgaHeader *readTGAHeader(ifstream *myFile);
         static vector<uint8_t> **readTGAPixels(ifstream *myFile, tgaHeader *header);
 
-        tgaHeader * header;
+        tgaHeader *header;
         vector<uint8_t> **pixels;
 
 };

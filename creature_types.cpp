@@ -32,7 +32,9 @@ using namespace std;
  *
  * In the end a short output containing some statistical informations is printed on the console.
  */
-CreatureTypes::CreatureTypes(const string fileName) {
+CreatureTypes::CreatureTypes(const string fileName) :
+    types(new vector<CreaTyp>)
+{
 
     unsigned int STATUS_READ_LINES = 0;
     unsigned int STATUS_NUMBER_OF_LINES;
@@ -41,25 +43,26 @@ CreatureTypes::CreatureTypes(const string fileName) {
     STATUS_NUMBER_OF_LINES = data.size();
 
     unsigned int i;
-    for(i=0; i<data.size(); i++) {
+    for(i=0; i < data.size(); i++) {
 
         vector<string> line = split(data[i], ",");
 
         if(line.size() != 6) {
-            cout << "line " << i+1 << ": no valid number of arguments in the line" << endl;
+            cout << "line " << i + 1 << ": no valid number of arguments in the line" << endl;
             continue;
         }
+
         CreaTyp type;
 
         // get the creature type's name
 
         type.name = stringTOlower(line[0]);
         if(type.name == "") {
-            cout << "line " << i+1 << ": name may not be empty" << endl;
+            cout << "line " << i + 1 << ": name may not be empty" << endl;
             continue;
         }
         if(type.name.find_first_not_of("abcdefghijklmnopqrstuvwxyz ") != string::npos) {
-            cout << "line " << i+1 << ": name has to contain only whitespaces and alphabetic characters" << endl;
+            cout << "line " << i + 1 << ": name has to contain only whitespaces and alphabetic characters" << endl;
             continue;
         }
 
@@ -83,43 +86,48 @@ CreatureTypes::CreatureTypes(const string fileName) {
             type.lifetime = t3;
         }
         catch (const invalid_argument& e) {
-            cout << "line " << i+1 << ": strength-, speed- or lifetime-number was no positive integer" << endl;
+            cout << "line " << i + 1 << ": strength-, speed- or lifetime-number was no positive integer" << endl;
             continue;
         }
         catch (const out_of_range& e) {
-            cout << "line " << i+1 << ": strength-, speed- or lifetime-number was out of the range of an integer" << endl;
+            cout << "line " << i + 1 << ": strength-, speed- or lifetime-number was out of the range of an integer" << endl;
             continue;
         }
 
         // get the creature type's properities
 
-        vector<string> props_data = split(line[4]," ");
+        vector<string> props_data = split(line[4], " ");
         set<string> props;
 
         bool _break = false;
         unsigned int j;
-        for(j=0; j<props_data.size(); j++) {
+        for(j=0; j < props_data.size(); j++) {
+
             string t = stringTOlower(props_data[j]);
             if(t.find_first_of("abcdefghijklmnopqrstuvwxyz") == string::npos) {
-                cout << "line " << i+1 << ": a single properity has to contain (only) alphabetic characters" << endl;
+
+                cout << "line " << i + 1 << ": a single properity has to contain (only) alphabetic characters" << endl;
                 _break = true;
                 break;
             }
             props.insert(t);
         }
+
         if(props_data.empty()) {
             type.properities = props;
             _break = false;
         }
+
         if(_break)
             continue;
+
         type.properities = props;
 
         // get the creature type's image-filepath
 
         type.image = line[5];
-        if(!isValidFilepath("images/"+type.image)) {
-            cout << "line " << i+1 << ": the filename is no valid filepath" << endl;
+        if(!isValidFilepath("images/" + type.image)) {
+            cout << "line " << i + 1 << ": the filename is no valid filepath" << endl;
             continue;
         }
 
@@ -139,6 +147,18 @@ CreatureTypes::CreatureTypes(const string fileName) {
 
 
 /**
+ * @brief CreatureTypes::addType            Destructor clearing memory.
+ *
+ * Deletes the allocated main memory space of the creature types.
+ */
+CreatureTypes::~CreatureTypes() {
+
+    delete types;
+}
+
+
+
+/**
  * @brief CreatureTypes::addType            Method to add a type to the data structure.
  * @param type                              The creature type that has to be added.
  *
@@ -146,7 +166,7 @@ CreatureTypes::CreatureTypes(const string fileName) {
  */
 void CreatureTypes::addType(CreaTyp type) {
 
-    types.push_back(type);
+    types -> push_back(type);
 }
 
 
@@ -160,9 +180,10 @@ void CreatureTypes::addType(CreaTyp type) {
 void CreatureTypes::deleteType(const string name) {
 
     unsigned int i;
-    for(i=0; i<types.size(); i++) {
-        if(types[i].name == name) {
-            types.erase(types.begin()+i);
+    for(i=0; i < types -> size(); i++) {
+
+        if(types -> at(i).name == name) {
+            types -> erase(types -> begin() + i);
             return;
         }
     }
@@ -180,9 +201,10 @@ void CreatureTypes::deleteType(const string name) {
 CreaTyp CreatureTypes::getInformation(const string name) {
 
     unsigned int i;
-    for(i=0; i<types.size(); i++) {
-        if(types[i].name == name) {
-            return types[i];
+    for(i=0; i < types -> size(); i++) {
+
+        if(types -> at(i).name == name) {
+            return types -> at(i);
         }
     }
     throw runtime_error("name of creature type not found");
@@ -199,12 +221,13 @@ string CreatureTypes::getText() {
 
     string text;
     unsigned int i;
-    for(i=0; i<types.size(); i++) {
-        text += "Name:\t\t" +     types[i].name + "\n";
-        text += "Strength:\t" + to_string(types[i].strength) + "\n";
-        text += "Speed:\t\t" +    to_string(types[i].speed) + "\n";
-        text += "Lifetime:\t" + to_string(types[i].lifetime) + "\n";
-        text += "Image:\t\t" +    types[i].image;
+    for(i=0; i < types -> size(); i++) {
+
+        text += "Name:\t\t" +     types -> at(i).name + "\n";
+        text += "Strength:\t" + to_string(types -> at(i).strength) + "\n";
+        text += "Speed:\t\t" +    to_string(types -> at(i).speed) + "\n";
+        text += "Lifetime:\t" + to_string(types -> at(i).lifetime) + "\n";
+        text += "Image:\t\t" +    types -> at(i).image;
         text += "\n\n";
     }
     return text;
