@@ -5,13 +5,13 @@
  *      Author: Gregor Soennichsen
  */
 
-#ifndef TGAIMAGE_HPP
-#define TGAIMAGE_HPP
+#ifndef TGA_IMAGE_HPP
+#define TGA_IMAGE_HPP
 
-#include <cstdint>
-#include <vector>
-#include <string>
 #include <iostream>
+#include <cstdint>
+#include <string>
+#include <vector>
 
 using namespace std;
 
@@ -68,4 +68,4 @@ class TgaImage {
 
 
 
-#endif // TGAIMAGE_HPP
+#endif // TGA_IMAGE_HPP

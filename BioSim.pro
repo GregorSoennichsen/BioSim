@@ -5,10 +5,9 @@ CONFIG -= qt
 
 SOURCES += \
     main.cpp \
-    extractdata.cpp \
-    creaturetypes.cpp \
-    helpfunctions.cpp \
-    tgaimage.cpp
+    tga_image.cpp \
+    creature_types.cpp \
+    stringFile_manip.cpp
 
 DISTFILES += \
     images/land/birne.tga \
@@ -35,10 +34,9 @@ DISTFILES += \
     images/wasser/wels.tga
 
 HEADERS += \
-    extractdata.hpp \
-    creaturetypes.hpp \
-    helpfunctions.hpp \
-    tgaimage.hpp
+    creature_types.hpp \
+    tga_image.hpp \
+    stringFile_manip.hpp
 
 OTHER_FILES += \
     CreatureTable.txt \

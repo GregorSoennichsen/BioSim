@@ -5,14 +5,14 @@
  *      Author: Gregor Soennichsen
  */
 
-#include <cstdint>
-#include <vector>
-#include <string>
 #include <iostream>
-#include <fstream>
 #include <exception>
+#include <fstream>
+#include <cstdint>
+#include <string>
+#include <vector>
 
-#include "tgaimage.hpp"
+#include "tga_image.hpp"
 
 using namespace std;
 

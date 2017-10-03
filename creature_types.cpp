@@ -6,13 +6,14 @@
  */
 
 #include <iostream>
-#include <string>
-#include <set>
 #include <exception>
+#include <string>
+#include <vector>
+#include <set>
 
-#include "helpfunctions.hpp"
-#include "creaturetypes.hpp"
-#include "extractdata.hpp"
+#include "stringFile_manip.hpp"
+
+#include "creature_types.hpp"
 
 using namespace std;
 

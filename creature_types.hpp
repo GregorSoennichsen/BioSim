@@ -5,12 +5,12 @@
  *      Author: Gregor Soennichsen
  */
 
-#ifndef CREATURETYPES_H
-#define CREATURETYPES_H
+#ifndef CREATURE_TYPES_HPP
+#define CREATURE_TYPES_HPP
 
 #include <string>
-#include <set>
 #include <vector>
+#include <set>
 
 using namespace std;
 
@@ -55,4 +55,4 @@ class CreatureTypes{
 };
 
 
-#endif // CREATURETYPES_H
+#endif // CREATURE_TYPES_HPP
