@@ -193,12 +193,31 @@ void CreatureTypes::deleteType(const string name) {
 
 
 /**
+ * @brief CreatureTypes::getTypeNames       Returns a vector of all stored type names.
+ *
+ * Returns a vector of all stored type names. By iterating through the vector and via
+ * the getTypeInfo method all creature types can be accessed.
+ */
+vector<string> CreatureTypes::getTypeNames() {
+
+    vector<string> typeNames;
+
+    unsigned int i;
+    for(i=0; i < types->size(); i++)
+        typeNames.push_back(types -> at(i).name);
+
+    return typeNames;
+}
+
+
+
+/**
  * @brief CreatureTypes::getInformation     Method to get the informations to a creature type.
  * @param name                              The informations to this creature type are returned.
  *
  * Returns a struct of type CreaType with informations. Throws an error, if the name was not found.
  */
-CreaTyp CreatureTypes::getInformation(const string name) {
+CreaTyp CreatureTypes::getTypeInfo(const string name) {
 
     unsigned int i;
     for(i=0; i < types -> size(); i++) {
@@ -227,7 +246,12 @@ string CreatureTypes::getText() {
         text += "Strength:\t" + to_string(types -> at(i).strength) + "\n";
         text += "Speed:\t\t" +    to_string(types -> at(i).speed) + "\n";
         text += "Lifetime:\t" + to_string(types -> at(i).lifetime) + "\n";
-        text += "Image:\t\t" +    types -> at(i).image;
+        text += "Image:\t\t" +    types -> at(i).image + "\n";
+        text += "Properities:\t";
+
+        for(const string &s : types -> at(i).properities)
+            text += s + " ";
+
         text += "\n\n";
     }
     return text;

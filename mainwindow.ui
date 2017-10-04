@@ -7,10 +7,16 @@
     <x>0</x>
     <y>0</y>
     <width>711</width>
-    <height>449</height>
+    <height>440</height>
    </rect>
   </property>
   <property name="minimumSize">
+   <size>
+    <width>711</width>
+    <height>440</height>
+   </size>
+  </property>
+  <property name="maximumSize">
    <size>
     <width>711</width>
     <height>440</height>
@@ -41,7 +47,7 @@
     <property name="frameShadow">
      <enum>QFrame::Plain</enum>
     </property>
-    <widget class="QFrame" name="frameCreatureChoice">
+    <widget class="QFrame" name="frameCreaChoice">
      <property name="geometry">
       <rect>
        <x>410</x>
@@ -54,7 +60,7 @@
       <bool>false</bool>
      </property>
      <property name="styleSheet">
-      <string notr="true">QFrame#frameCreatureChoice { background-color: rgb(240, 240, 240)}</string>
+      <string notr="true">QFrame#frameCreaChoice { background-color: rgb(240, 240, 240)}</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -64,38 +70,17 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
-       <widget class="QFrame" name="frame_9">
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <widget class="QComboBox" name="comboBox">
-           <property name="currentText">
-            <string>Kreaturenwahl</string>
-           </property>
-           <item>
-            <property name="text">
-             <string>Kreaturenwahl</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-        </layout>
-       </widget>
+       <widget class="QComboBox" name="comboCrea"/>
       </item>
       <item>
-       <widget class="QFrame" name="frame_5">
+       <widget class="QFrame" name="frameCreaStren">
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <widget class="QLabel" name="label_3">
+        <widget class="QLabel" name="labelCreaStren">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -108,7 +93,7 @@
           <string>Stärke:</string>
          </property>
         </widget>
-        <widget class="QLineEdit" name="lineEdit_Strength">
+        <widget class="QLineEdit" name="lineCreaStren">
          <property name="geometry">
           <rect>
            <x>120</x>
@@ -124,14 +109,14 @@
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="frame_6">
+       <widget class="QFrame" name="frameCreaSpe">
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <widget class="QLabel" name="label_4">
+        <widget class="QLabel" name="labelCreaSpe">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -144,7 +129,7 @@
           <string>Geschwindigkeit:</string>
          </property>
         </widget>
-        <widget class="QLineEdit" name="lineEdit_Speed">
+        <widget class="QLineEdit" name="lineCreaSpe">
          <property name="geometry">
           <rect>
            <x>120</x>
@@ -160,14 +145,14 @@
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="frame_7">
+       <widget class="QFrame" name="frameCreaLife">
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <widget class="QLabel" name="label_5">
+        <widget class="QLabel" name="labelCreaLife">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -180,7 +165,7 @@
           <string>Leben:</string>
          </property>
         </widget>
-        <widget class="QLineEdit" name="lineEdit_Lifetime">
+        <widget class="QLineEdit" name="lineCreaLife">
          <property name="geometry">
           <rect>
            <x>120</x>
@@ -196,14 +181,14 @@
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="frame_8">
+       <widget class="QFrame" name="frameCreaProp">
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <widget class="QLabel" name="label_6">
+        <widget class="QLabel" name="labelCreaProp">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -216,7 +201,7 @@
           <string>Eigenschaften:</string>
          </property>
         </widget>
-        <widget class="QLineEdit" name="lineEdit_Properities">
+        <widget class="QLineEdit" name="lineCreaProp">
          <property name="geometry">
           <rect>
            <x>120</x>
@@ -229,6 +214,13 @@
           <bool>true</bool>
          </property>
         </widget>
+       </widget>
+      </item>
+      <item alignment="Qt::AlignRight">
+       <widget class="QPushButton" name="buttonPlace">
+        <property name="text">
+         <string>Platzieren</string>
+        </property>
        </widget>
       </item>
      </layout>
@@ -284,14 +276,14 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
-       <widget class="QFrame" name="frame_10">
+       <widget class="QFrame" name="frameCtrlText">
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="labelCtrlText">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -307,7 +299,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="frame_4">
+       <widget class="QFrame" name="frameCtrlButtons">
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
@@ -316,21 +308,21 @@
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="buttonStart">
            <property name="text">
             <string>Start</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_3">
+          <widget class="QPushButton" name="buttonStop">
            <property name="text">
             <string>Stopp</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_2">
+          <widget class="QPushButton" name="buttonStep">
            <property name="text">
             <string>Schritt</string>
            </property>
@@ -341,7 +333,7 @@
       </item>
      </layout>
     </widget>
-    <widget class="QFrame" name="frameSimulation">
+    <widget class="QFrame" name="frameSim">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -359,7 +351,7 @@
      <property name="frameShadow">
       <enum>QFrame::Plain</enum>
      </property>
-     <widget class="QOpenGLWidget" name="openGLWidget">
+     <widget class="QOpenGLWidget" name="openGLSim">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -369,7 +361,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QScrollBar" name="verticalScrollBar">
+     <widget class="QScrollBar" name="scrollVertSim">
       <property name="geometry">
        <rect>
         <x>350</x>
@@ -382,7 +374,7 @@
        <enum>Qt::Vertical</enum>
       </property>
      </widget>
-     <widget class="QScrollBar" name="horizontalScrollBar">
+     <widget class="QScrollBar" name="scrollHorizSim">
       <property name="geometry">
        <rect>
         <x>0</x>

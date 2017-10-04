@@ -47,7 +47,8 @@ class CreatureTypes{
 
         void addType(CreaTyp type);
         void deleteType(const string name);
-        CreaTyp getInformation(const string name);
+        vector<string> getTypeNames();
+        CreaTyp getTypeInfo(const string name);
         string getText();
 
     private:
