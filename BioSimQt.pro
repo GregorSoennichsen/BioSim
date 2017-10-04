@@ -4,24 +4,31 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = BioSimQt
 TEMPLATE = app
 
+LIBS   += -lopengl32
+LIBS   += -lglu32
+LIBS   += -lglut32
 
 SOURCES += main.cpp\
         mainwindow.cpp \
     creature_types.cpp \
     stringFile_manip.cpp \
-    tga_image.cpp
+    tga_image.cpp \
+    ui_mainwindow.cpp \
+    simulation_area.cpp
 
 HEADERS  += mainwindow.hpp \
     creature_types.hpp \
     stringFile_manip.hpp \
-    tga_image.hpp
+    tga_image.hpp \
+    ui_mainwindow.hpp \
+    simulation_area.hpp
 
 FORMS    += \
     mainwindow.ui

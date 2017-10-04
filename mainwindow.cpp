@@ -7,13 +7,13 @@
 
 #include <QMessageBox>
 
+#include "mainwindow.hpp"
+#include "ui_mainwindow.hpp"
+
 #include <iostream>
 #include <exception>
 #include <string>
 #include <vector>
-
-#include "mainwindow.hpp"
-#include "ui_mainwindow.h"
 
 #include "creature_types.hpp"
 
@@ -31,18 +31,22 @@ using namespace std;
  * are determined.
  */
 MainWindow::MainWindow(QWidget *parent) :
+
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     creaTypes(new CreatureTypes("CreatureTable.txt"))
 {
+
     ui -> setupUi(this);
     initCreatureChoice();
 
-    connect(ui -> comboCrea,   SIGNAL(currentTextChanged(QString)), this, SLOT(updateCreatureInfo(QString)));
-    connect(ui -> buttonPlace, SIGNAL(pressed()), this, SLOT(buttonPlacePressed()));
-    connect(ui -> buttonStart, SIGNAL(pressed()), this, SLOT(buttonStartPressed()));
-    connect(ui -> buttonStop,  SIGNAL(pressed()), this, SLOT(buttonStopPressed()));
-    connect(ui -> buttonStep,  SIGNAL(pressed()), this, SLOT(buttonStepPressed()));
+    connect(ui -> comboCrea,      SIGNAL(currentTextChanged(QString)), this, SLOT(updateCreatureInfo(QString)));
+    connect(ui -> buttonPlace,    SIGNAL(pressed()), this, SLOT(buttonPlacePressed()));
+    connect(ui -> buttonStart,    SIGNAL(pressed()), this, SLOT(buttonStartPressed()));
+    connect(ui -> buttonStop,     SIGNAL(pressed()), this, SLOT(buttonStopPressed()));
+    connect(ui -> buttonStep,     SIGNAL(pressed()), this, SLOT(buttonStepPressed()));
+    connect(ui -> scrollVertSim,  SIGNAL(sliderMoved(int)), this, SLOT(scrollVertMoved(int)));
+    connect(ui -> scrollHorizSim, SIGNAL(sliderMoved(int)), this, SLOT(scrollHorizMoved(int)));
 }
 
 
@@ -119,7 +123,7 @@ void MainWindow::updateCreatureInfo(QString creaName) {
 
 
 /**
- * @brief MainWindow::buttonPlacePressed    Defines the reaction when the 'place' button is pressed.
+ * @brief MainWindow::buttonPlacePressed     Defines the reaction when the 'place' button is pressed.
  *
  * Shows a message box, that tells the user, he has clicked the 'place' button.
  */
@@ -132,7 +136,7 @@ void MainWindow::buttonPlacePressed() {
 
 
 /**
- * @brief MainWindow::buttonStartPressed    Defines the reaction when the 'start' button is pressed.
+ * @brief MainWindow::buttonStartPressed     Defines the reaction when the 'start' button is pressed.
  *
  * Shows a message box, that tells the user, he has clicked the 'start' button.
  */
@@ -145,7 +149,7 @@ void MainWindow::buttonStartPressed() {
 
 
 /**
- * @brief MainWindow::buttonStopPressed     Defines the reaction when the 'stop' button is pressed.
+ * @brief MainWindow::buttonStopPressed      Defines the reaction when the 'stop' button is pressed.
  *
  * Shows a message box, that tells the user, he has clicked the 'stop' button.
  */
@@ -158,12 +162,36 @@ void MainWindow::buttonStopPressed() {
 
 
 /**
- * @brief MainWindow::buttonStepPressed    Defines the reaction when the 'step' button is pressed.
+ * @brief MainWindow::buttonStepPressed     Defines the reaction when the 'step' button is pressed.
  *
  * Shows a message box, that tells the user, he has clicked the 'step' button.
  */
 void MainWindow::buttonStepPressed() {
 
     QMessageBox::question(this, "Button pressed", "The step button was clicked", QMessageBox::Ok);
+
+}
+
+
+
+/**
+ * @brief MainWindow::scrollVertMoved       Defines the reaction when the vertical scrollbar is moved.
+ * @param newValue                          New position of the slider.
+ *
+ * Does nothing, functionality is added later.
+ */
+void MainWindow::scrollVertMoved(int newValue) {
+
+}
+
+
+
+/**
+ * @brief MainWindow::scrollHorizMoved      Defines the reaction when the vertical scrollbar is moved.
+ * @param creaName                          New position of the slider.
+ *
+ * Does nothing, functionality is added later.
+ */
+void MainWindow::scrollHorizMoved(int newValue) {
 
 }

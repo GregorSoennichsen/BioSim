@@ -1,12 +1,12 @@
+/*
+ * main.cpp
+ *
+ *  Created on: 26.09.2017
+ *      Author: Gregor Soennichsen
+ */
+
 #include "mainwindow.hpp"
 #include <QApplication>
-
-#include <iostream>
-
-#include "creature_types.hpp"
-#include "tga_image.hpp"
-
-using namespace std;
 
 
 

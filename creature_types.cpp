@@ -33,6 +33,7 @@ using namespace std;
  * In the end a short output containing some statistical informations is printed on the console.
  */
 CreatureTypes::CreatureTypes(const string fileName) :
+
     types(new vector<CreaTyp>)
 {
 

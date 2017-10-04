@@ -47,6 +47,8 @@ class MainWindow : public QMainWindow
         void buttonStartPressed();
         void buttonStopPressed();
         void buttonStepPressed();
+        void scrollVertMoved(int newValue);
+        void scrollHorizMoved(int newValue);
 };
 
 
