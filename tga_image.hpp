@@ -54,18 +54,20 @@ class TgaImage {
         explicit TgaImage(string filePath);
         ~TgaImage();
 
-        void printTGAHeader();
+        vector<uint8_t> *getPixels();
+        tgaHeader *getHeader();
+        void printHeader();
 
     private:
 
         TgaImage(const TgaImage& s);
         TgaImage& operator=(const TgaImage& s);
 
-        static struct tgaHeader *readTGAHeader(ifstream *myFile);
-        static vector<uint8_t> **readTGAPixels(ifstream *myFile, tgaHeader *header);
+        static struct tgaHeader *readHeader(ifstream *myFile);
+        static vector<uint8_t>  *readPixels(ifstream *myFile, tgaHeader *header);
 
         tgaHeader *header;
-        vector<uint8_t> **pixels;
+        vector<uint8_t> *pixels;
 
 };
 

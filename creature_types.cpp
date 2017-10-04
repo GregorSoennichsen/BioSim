@@ -127,7 +127,7 @@ CreatureTypes::CreatureTypes(const string fileName) :
         // get the creature type's image-filepath
 
         type.image = line[5];
-        if(!isValidFilepath("images/" + type.image)) {
+        if(!isValidFilepath("creature_tiles/" + type.image)) {
             cout << "line " << i + 1 << ": the filename is no valid filepath" << endl;
             continue;
         }

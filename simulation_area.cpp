@@ -9,7 +9,12 @@
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
 
+#include <vector>
+
 #include "simulation_area.hpp"
+
+const int NUMBER_OF_TILES_X = 3;
+const int NUMBER_OF_TILES_Y = 3;
 
 
 
@@ -17,6 +22,8 @@ SimulationArea::SimulationArea(QWidget *parent) :
 
     QOpenGLWidget(parent)
 {
+
+
 
 }
 
