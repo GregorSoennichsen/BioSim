@@ -20,7 +20,7 @@ using namespace std;
 
 /**
  * @brief TgaImage::TgaImage                Constructor that loads a tga image.
- * @param fileName                          Location of the tga image that shall be loaded.
+ * @param filePath                          Location of the tga image that shall be loaded.
  *
  * This constructor is supposed to load a tga image and save the informations in an
  * internal data structure. The code is splitted into two sections:
@@ -77,6 +77,24 @@ TgaImage::TgaImage(string filePath) {
     // Further Meta-Data following the image data are ignored.
 
     myFile.close();
+
+
+    // ****************** LOG ****************************
+    cout << "---- Read successfully TGA Image from: " << filePath << " ----" << endl;
+//    cout << "Image-ID length:\t\t"        << (short) header->imageIDlength << endl;
+//    cout << "Color-Pallete type:\t\t"     << (short) header->colormapType << endl;
+//    cout << "Imagetype:\t\t"            << (short) header->imageType << endl;
+//    cout << "Pallette-Begin:\t\t"       << header->colormapBegin << endl;
+//    cout << "Pallette-Length:\t\t"        << header->colormapLength << endl;
+//    cout << "Size of colormap-entry:\t" << (short) header->sizeOfEntryInPallette << endl;
+//    cout << "x-Origin:\t\t\t"             << header->xOrigin << endl;
+//    cout << "y-Origin:\t\t\t"             << header->yOrigin << endl;
+//    cout << "Image width:\t\t"          << header->width << endl;
+//    cout << "Image height:\t\t"         << header->height << endl;
+//    cout << "Bits per point:\t\t"       << (short) header->bitsPerPoint << endl;
+    cout << "--------" << endl << endl;
+    // ***************************************************
+
 }
 
 
@@ -123,33 +141,7 @@ tgaHeader *TgaImage::getHeader() {
 
 
 /**
- * @brief TgaImage::readTGAPixels           Prints the header informations of the loaded tga image..
- *
- * Gives a brief overview over all options stored in the tga header.
- */
-void TgaImage::printHeader() {
-
-
-    cout << "--------" << endl;
-    cout << "Image-ID length:\t"        << (short) header->imageIDlength << endl;
-    cout << "Color-Pallete type:\t"     << (short) header->colormapType << endl;
-    cout << "Imagetype:\t\t"            << (short) header->imageType << endl;
-    cout << "Pallette-Begin:\t\t"       << header->colormapBegin << endl;
-    cout << "Pallette-Length:\t"        << header->colormapLength << endl;
-    cout << "Size of colormap-entry:\t" << (short) header->sizeOfEntryInPallette << endl;
-    cout << "x-Origin:\t\t"             << header->xOrigin << endl;
-    cout << "y-Origin:\t\t"             << header->yOrigin << endl;
-    cout << "Image width:\t\t"          << header->width << endl;
-    cout << "Image height:\t\t"         << header->height << endl;
-    cout << "Bits per point:\t\t"       << (short) header->bitsPerPoint << endl;
-    cout << "--------" << endl;
-
-}
-
-
-
-/**
- * @brief TgaImage::readTGAHeader           Interprets the first 18 bytes of a tga image.
+ * @brief TgaImage::readHeader              Interprets the first 18 bytes of a tga image.
  * @param myFile                            The stream to read the informations from.
  *
  * This static method reads the first 18 bytes of a stream and returns the interpreted
@@ -183,7 +175,7 @@ struct tgaHeader *TgaImage::readHeader(ifstream *myFile) {
 
 
 /**
- * @brief TgaImage::readTGAPixels           Interprets the pixel colors of a tga image.
+ * @brief TgaImage::readPixels              Interprets the pixel colors of a tga image.
  * @param myFile                            The stream to read the informations from.
  * @param header                            Tga header containing data to read the pixel data.
  *

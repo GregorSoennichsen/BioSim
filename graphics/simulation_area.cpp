@@ -12,14 +12,11 @@
 #include <iostream>
 #include <string>
 
-#include "tga_image.hpp"
+#include "../data/tga_image.hpp"
 
 #include "simulation_area.hpp"
 
 using namespace std;
-
-const int TILES_X = 3;
-const int TILES_Y = 3;
 
 
 
@@ -53,6 +50,12 @@ const float vertexData[12][3] = {
    {  0.5f,  0.5f, 1.0f },  { 0.0f, 1.0f, 0.0f }
 
 };
+
+
+// geometry().width()  geometry().height()
+
+
+
 
 const int positionTupelSize = 3;             // 3D-Coord
 const int colorTupelSize = 3;                // RGB
@@ -94,9 +97,8 @@ const char *fragmentShaderSource =
 SimulationArea::SimulationArea(QWidget *parent) :
 
     QOpenGLWidget(parent),
-    image(new TgaImage("terrain/shallow_water.tga"))
+    image(new TgaImage("ressources/terrain/shallow_water.tga"))
 {
-
 }
 
 
@@ -125,6 +127,9 @@ void SimulationArea::initializeGL() {
     shaderProgram->bind();
 
     // Create Buffer (Do not release until VAO is created)
+
+//    for(int i=0; i <= geometry().width()/TILES_W; i++)        // ------------ tile position test
+//        cout << i << " " << rcTOgl_x(i) << endl;
 
     buffer.create();
     buffer.bind();

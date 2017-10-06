@@ -16,7 +16,15 @@
 #include <QOpenGLBuffer>
 #include <QOpenGLShaderProgram>
 
-#include "tga_image.hpp"
+#include "../data/tga_image.hpp"
+
+
+
+const int TILES_X = 3;
+const int TILES_Y = 3;
+
+const int TILES_W = 32;
+const int TILES_H = 32;
 
 
 
@@ -46,6 +54,12 @@ class SimulationArea : public QOpenGLWidget, protected QOpenGLFunctions {
         GLuint posAttr;
         GLuint colAttr;
         GLuint matrixUniform;
+
+        inline float rcTOgl_x(int x) {
+
+            return ( (2 * x * TILES_W) / static_cast<float> (geometry().width()) ) - 1;
+
+        }
 
 };
 

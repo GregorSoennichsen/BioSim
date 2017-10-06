@@ -56,7 +56,6 @@ class TgaImage {
 
         vector<uint8_t> *getPixels();
         tgaHeader *getHeader();
-        void printHeader();
 
     private:
 

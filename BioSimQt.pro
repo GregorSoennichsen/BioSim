@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl widgets
+QT       += core gui opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -17,47 +17,53 @@ LIBS   += -lglut32
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    creature_types.cpp \
-    stringFile_manip.cpp \
-    tga_image.cpp \
-    ui_mainwindow.cpp \
-    simulation_area.cpp
+    data/stringFile_manip.cpp \
+    data/tga_image.cpp \
+    graphics/simulation_area.cpp \
+    graphics/ui_mainwindow.cpp \
+    data/creaTypeManager.cpp
 
 HEADERS  += mainwindow.hpp \
-    creature_types.hpp \
-    stringFile_manip.hpp \
-    tga_image.hpp \
-    ui_mainwindow.hpp \
-    simulation_area.hpp
+    data/stringFile_manip.hpp \
+    data/tga_image.hpp \
+    graphics/simulation_area.hpp \
+    graphics/ui_mainwindow.hpp \
+    data/creaTypeManager.hpp
 
 FORMS    += \
     mainwindow.ui
 
 DISTFILES += \
-    images/land/birne.tga \
-    images/land/busch.tga \
-    images/land/eiche.tga \
-    images/land/emu.tga \
-    images/land/gras.tga \
-    images/land/hund.tga \
-    images/land/kaktus.tga \
-    images/land/kuh.tga \
-    images/land/pferd.tga \
-    images/land/schaf.tga \
-    images/land/sonnenblume.tga \
-    images/land/tanne.tga \
-    images/land/tiger.tga \
-    images/land/ursus.tga \
-    images/wasser/algen.tga \
-    images/wasser/delphin.tga \
-    images/wasser/forelle.tga \
-    images/wasser/hai.tga \
-    images/wasser/krabbe.tga \
-    images/wasser/plankton.tga \
-    images/wasser/seetang.tga \
-    images/wasser/wels.tga \
-    CreatureTable.txt \
-    CreatureTable_mitFehlern.txt \
+    ressources/creature_tiles/land/birne.tga \
+    ressources/creature_tiles/land/busch.tga \
+    ressources/creature_tiles/land/eiche.tga \
+    ressources/creature_tiles/land/emu.tga \
+    ressources/creature_tiles/land/gras.tga \
+    ressources/creature_tiles/land/hund.tga \
+    ressources/creature_tiles/land/kaktus.tga \
+    ressources/creature_tiles/land/kuh.tga \
+    ressources/creature_tiles/land/pferd.tga \
+    ressources/creature_tiles/land/schaf.tga \
+    ressources/creature_tiles/land/sonnenblume.tga \
+    ressources/creature_tiles/land/tanne.tga \
+    ressources/creature_tiles/land/tiger.tga \
+    ressources/creature_tiles/land/ursus.tga \
+    ressources/creature_tiles/wasser/algen.tga \
+    ressources/creature_tiles/wasser/delphin.tga \
+    ressources/creature_tiles/wasser/forelle.tga \
+    ressources/creature_tiles/wasser/hai.tga \
+    ressources/creature_tiles/wasser/krabbe.tga \
+    ressources/creature_tiles/wasser/plankton.tga \
+    ressources/creature_tiles/wasser/seetang.tga \
+    ressources/creature_tiles/wasser/wels.tga \
+    ressources/terrain/deep_sea.tga \
+    ressources/terrain/earth.tga \
+    ressources/terrain/rocks.tga \
+    ressources/terrain/sand.tga \
+    ressources/terrain/shallow_water.tga \
+    ressources/terrain/snow.tga \
+    ressources/CreatureTable.txt \
+    ressources/CreatureTable_mitFehlern.txt \
     Qt Dlls.lnk/libEGL.dll \
     Qt Dlls.lnk/libEGLd.dll \
     Qt Dlls.lnk/libgcc_s_dw2-1.dll \
@@ -215,31 +221,3 @@ DISTFILES += \
     Qt Dlls.lnk/xmlpatternsvalidator.exe \
     Qt Dlls.lnk/fixqt4headers.pl \
     Qt Dlls.lnk/syncqt.pl \
-    creature_tiles/land/birne.tga \
-    creature_tiles/land/busch.tga \
-    creature_tiles/land/eiche.tga \
-    creature_tiles/land/emu.tga \
-    creature_tiles/land/gras.tga \
-    creature_tiles/land/hund.tga \
-    creature_tiles/land/kaktus.tga \
-    creature_tiles/land/kuh.tga \
-    creature_tiles/land/pferd.tga \
-    creature_tiles/land/schaf.tga \
-    creature_tiles/land/sonnenblume.tga \
-    creature_tiles/land/tanne.tga \
-    creature_tiles/land/tiger.tga \
-    creature_tiles/land/ursus.tga \
-    creature_tiles/wasser/algen.tga \
-    creature_tiles/wasser/delphin.tga \
-    creature_tiles/wasser/forelle.tga \
-    creature_tiles/wasser/hai.tga \
-    creature_tiles/wasser/krabbe.tga \
-    creature_tiles/wasser/plankton.tga \
-    creature_tiles/wasser/seetang.tga \
-    creature_tiles/wasser/wels.tga \
-    terrain/deep_sea.tga \
-    terrain/earth.tga \
-    terrain/rocks.tga \
-    terrain/sand.tga \
-    terrain/shallow_water.tga \
-    terrain/snow.tga

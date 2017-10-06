@@ -21,9 +21,8 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
-#include "simulation_area.hpp"
-
 #include "ui_mainwindow.hpp"
+#include "simulation_area.hpp"
 
 
 

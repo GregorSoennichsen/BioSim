@@ -13,14 +13,14 @@
 
 #include "stringFile_manip.hpp"
 
-#include "creature_types.hpp"
+#include "creaTypeManager.hpp"
 
 using namespace std;
 
 
 
 /**
- * @brief CreatureTypes::CreatureTypes      Constructor to initialize all creature types from one file.
+ * @brief CreaTypeManager::CreaTypeManager  Constructor to initialize all creature types from one file.
  * @param fileName                          Filepath to load the creature types from.
  *
  * The constructor loads all informations line by line from the specified file, where one line
@@ -32,9 +32,9 @@ using namespace std;
  *
  * In the end a short output containing some statistical informations is printed on the console.
  */
-CreatureTypes::CreatureTypes(const string filePath) :
+CreaTypeManager::CreaTypeManager(const string filePath) :
 
-    types(new vector<CreaTyp>)
+    types(new vector<CreaType>)
 {
 
     unsigned int STATUS_READ_LINES = 0;
@@ -53,7 +53,7 @@ CreatureTypes::CreatureTypes(const string filePath) :
             continue;
         }
 
-        CreaTyp type;
+        CreaType type;
 
         // get the creature type's name
 
@@ -127,7 +127,7 @@ CreatureTypes::CreatureTypes(const string filePath) :
         // get the creature type's image-filepath
 
         type.image = line[5];
-        if(!isValidFilepath("creature_tiles/" + type.image)) {
+        if(!isValidFilepath("ressources/creature_tiles/" + type.image)) {
             cout << "line " << i + 1 << ": the filename is no valid filepath" << endl;
             continue;
         }
@@ -136,23 +136,24 @@ CreatureTypes::CreatureTypes(const string filePath) :
         STATUS_READ_LINES++;
     }
 
-    // some statistics
-    cout << "---- Read creature types from: " << filePath << " ----" << endl;
+    // ****************** LOG ****************************
+    cout << "---- Read creature types from: "   << filePath << " ----" << endl;
     cout << "number of lines:\t\t"              << STATUS_NUMBER_OF_LINES << endl;
     cout << "successfull read operations:\t"    << STATUS_READ_LINES << endl;
-    cout << "failed read operations:\t"       << STATUS_NUMBER_OF_LINES - STATUS_READ_LINES << endl;
-    cout << "--------" << endl;
+    cout << "failed read operations:\t"         << STATUS_NUMBER_OF_LINES - STATUS_READ_LINES << endl;
+    cout << "--------" << endl << endl;
+    // ***************************************************
 
 }
 
 
 
 /**
- * @brief CreatureTypes::addType            Destructor clearing memory.
+ * @brief CreaTypeManager::~CreaTypeManager  Destructor clearing memory.
  *
  * Deletes the allocated main memory space of the creature types.
  */
-CreatureTypes::~CreatureTypes() {
+CreaTypeManager::~CreaTypeManager() {
 
     delete types;
 }
@@ -160,12 +161,12 @@ CreatureTypes::~CreatureTypes() {
 
 
 /**
- * @brief CreatureTypes::addType            Method to add a type to the data structure.
+ * @brief CreaTypeManager::addType          Method to add a type to the data structure.
  * @param type                              The creature type that has to be added.
  *
  * Simply adds a new entry.
  */
-void CreatureTypes::addType(CreaTyp type) {
+void CreaTypeManager::addType(CreaType type) {
 
     types->push_back(type);
 }
@@ -173,12 +174,12 @@ void CreatureTypes::addType(CreaTyp type) {
 
 
 /**
- * @brief CreatureTypes::deleteType         Method to delete a creature type from the data structure.
+ * @brief CreaTypeManager::deleteType       Method to delete a creature type from the data structure.
  * @param name                              The creature type that has to be deleted.
  *
- * Simply deletes the specified creaturetype. Throws an error, if the name was not found.
+ * Simply deletes the specified creature type. Throws an error, if the name was not found.
  */
-void CreatureTypes::deleteType(const string name) {
+void CreaTypeManager::deleteType(const string name) {
 
     unsigned int i;
     for(i=0; i < types->size(); i++) {
@@ -194,12 +195,12 @@ void CreatureTypes::deleteType(const string name) {
 
 
 /**
- * @brief CreatureTypes::getTypeNames       Returns a vector of all stored type names.
+ * @brief CreaTypeManager::getTypeNames     Returns a vector of all stored type names.
  *
  * Returns a vector of all stored type names. By iterating through the vector and via
  * the getTypeInfo method all creature types can be accessed.
  */
-vector<string> CreatureTypes::getTypeNames() {
+vector<string> CreaTypeManager::getTypeNames() {
 
     vector<string> typeNames;
 
@@ -213,12 +214,12 @@ vector<string> CreatureTypes::getTypeNames() {
 
 
 /**
- * @brief CreatureTypes::getInformation     Method to get the informations to a creature type.
+ * @brief CreaTypeManager::getInformation   Method to get the informations to a creature type.
  * @param name                              The informations to this creature type are returned.
  *
  * Returns a struct of type CreaType with informations. Throws an error, if the name was not found.
  */
-CreaTyp CreatureTypes::getTypeInfo(const string name) {
+CreaType CreaTypeManager::getTypeInfo(const string name) {
 
     unsigned int i;
     for(i=0; i < types->size(); i++) {
@@ -233,20 +234,20 @@ CreaTyp CreatureTypes::getTypeInfo(const string name) {
 
 
 /**
- * @brief CreatureTypes::getText            Method, that returns a status string about all creature types.
+ * @brief CreaTypeManager::getText          Method, that returns a status string about all creature types.
  *
  * Returns a string containing the names of all creature types saved in the data structure..
  */
-string CreatureTypes::getText() {
+string CreaTypeManager::getText() {
 
     string text;
     unsigned int i;
     for(i=0; i < types->size(); i++) {
 
         text += "Name:\t\t" +     types->at(i).name + "\n";
-        text += "Strength:\t" + to_string(types->at(i).strength) + "\n";
+        text += "Strength:\t" +   to_string(types->at(i).strength) + "\n";
         text += "Speed:\t\t" +    to_string(types->at(i).speed) + "\n";
-        text += "Lifetime:\t" + to_string(types->at(i).lifetime) + "\n";
+        text += "Lifetime:\t" +   to_string(types->at(i).lifetime) + "\n";
         text += "Image:\t\t" +    types->at(i).image + "\n";
         text += "Properities:\t";
 

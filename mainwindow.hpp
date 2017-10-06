@@ -10,7 +10,7 @@
 
 #include <QMainWindow>
 
-#include "creature_types.hpp"
+#include "data/creaTypeManager.hpp"
 
 namespace Ui {
     class MainWindow;
@@ -22,7 +22,7 @@ namespace Ui {
  * @brief MainWindow      Main class managing all processes of BioSim.
  *
  * MainWindow is the main class to handle all the application logic. It
- * manages the Qt gui and has an instance of the CreatureTypes class.
+ * manages the Qt gui and has an instance of the CreaTypeManager class.
  */
 class MainWindow : public QMainWindow
 {
@@ -38,7 +38,7 @@ class MainWindow : public QMainWindow
         void initCreatureChoice();
 
         Ui::MainWindow *ui;
-        CreatureTypes *creaTypes;
+        CreaTypeManager *creaTypeManager;
 
     private slots:
 

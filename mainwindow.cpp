@@ -7,15 +7,14 @@
 
 #include <QMessageBox>
 
-#include "mainwindow.hpp"
-#include "ui_mainwindow.hpp"
-
 #include <iostream>
 #include <exception>
 #include <string>
 #include <vector>
 
-#include "creature_types.hpp"
+#include "mainwindow.hpp"
+#include "graphics/ui_mainwindow.hpp"
+#include "data/creaTypeManager.hpp"
 
 using namespace std;
 
@@ -34,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    creaTypes(new CreatureTypes("CreatureTable.txt"))
+    creaTypeManager(new CreaTypeManager("ressources/CreatureTable.txt"))
 {
     setWindowModality(Qt::WindowModality::ApplicationModal);
 
@@ -42,12 +41,12 @@ MainWindow::MainWindow(QWidget *parent) :
     initCreatureChoice();
 
     connect(ui->comboCrea,      SIGNAL(currentTextChanged(QString)), this, SLOT(updateCreatureInfo(QString)));
-    connect(ui->buttonPlace,    SIGNAL(pressed()), this, SLOT(buttonPlacePressed()));
-    connect(ui->buttonStart,    SIGNAL(pressed()), this, SLOT(buttonStartPressed()));
-    connect(ui->buttonStop,     SIGNAL(pressed()), this, SLOT(buttonStopPressed()));
-    connect(ui->buttonStep,     SIGNAL(pressed()), this, SLOT(buttonStepPressed()));
-    connect(ui->scrollVertSim,  SIGNAL(sliderMoved(int)), this, SLOT(scrollVertMoved(int)));
-    connect(ui->scrollHorizSim, SIGNAL(sliderMoved(int)), this, SLOT(scrollHorizMoved(int)));
+    connect(ui->buttonPlace,    SIGNAL(pressed()),                   this, SLOT(buttonPlacePressed()));
+    connect(ui->buttonStart,    SIGNAL(pressed()),                   this, SLOT(buttonStartPressed()));
+    connect(ui->buttonStop,     SIGNAL(pressed()),                   this, SLOT(buttonStopPressed()));
+    connect(ui->buttonStep,     SIGNAL(pressed()),                   this, SLOT(buttonStepPressed()));
+    connect(ui->scrollVertSim,  SIGNAL(sliderMoved(int)),            this, SLOT(scrollVertMoved(int)));
+    connect(ui->scrollHorizSim, SIGNAL(sliderMoved(int)),            this, SLOT(scrollHorizMoved(int)));
 }
 
 
@@ -61,7 +60,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete creaTypes;
+    delete creaTypeManager;
 }
 
 
@@ -75,7 +74,7 @@ MainWindow::~MainWindow()
  */
 void MainWindow::initCreatureChoice() {
 
-    vector<string> creaTypesNames = creaTypes->getTypeNames();
+    vector<string> creaTypesNames = creaTypeManager->getTypeNames();
 
     unsigned int i;
     for(i=0; i < creaTypesNames.size(); i++)
@@ -101,7 +100,7 @@ void MainWindow::updateCreatureInfo(QString creaName) {
 
     try {
 
-        CreaTyp type = creaTypes->getTypeInfo(creaName.toStdString());
+        CreaType type = creaTypeManager->getTypeInfo(creaName.toStdString());
 
         ui->lineCreaStren->setText( QString(to_string(type.strength).c_str()) );
         ui->lineCreaSpe  ->setText( QString(to_string(type.speed).c_str()) );

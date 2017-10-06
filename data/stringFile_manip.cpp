@@ -11,7 +11,7 @@
 #include <string>
 #include <vector>
 
-#include "creature_types.hpp"
+#include "creaTypeManager.hpp"
 
 using namespace std;
 

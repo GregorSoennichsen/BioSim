@@ -5,8 +5,8 @@
  *      Author: Gregor Soennichsen
  */
 
-#ifndef CREATURE_TYPES_HPP
-#define CREATURE_TYPES_HPP
+#ifndef CREATYPEMANAGER_HPP
+#define CREATYPEMANAGER_HPP
 
 #include <string>
 #include <vector>
@@ -17,11 +17,11 @@ using namespace std;
 
 
 /**
- * @brief CreaTye           The basic representation of a creature type.
+ * @brief CreaType          The basic representation of a creature type.
  *
  * This struct is the elementar component that represents a creature type.
  */
-struct CreaTyp {
+struct CreaType {
 
     string          name;
     unsigned int    strength, speed, lifetime;
@@ -33,32 +33,32 @@ struct CreaTyp {
 
 
 /**
- * @brief CreatureTypes     Class to manage the creature types.
+ * @brief CreaTypeManager    Class to manage the creature types.
  *
  * In this class, methods can be found to add, delete, access and initialize
  * all creature types. Internally a data structure saves all loaded informations.
  */
-class CreatureTypes{
+class CreaTypeManager{
 
     public:
 
-        explicit CreatureTypes(const string filePath);
-        ~CreatureTypes();
+        explicit CreaTypeManager(const string filePath);
+        ~CreaTypeManager();
 
-        void addType(CreaTyp type);
+        void addType(CreaType type);
         void deleteType(const string name);
         vector<string> getTypeNames();
-        CreaTyp getTypeInfo(const string name);
+        CreaType getTypeInfo(const string name);
         string getText();
 
     private:
 
-        CreatureTypes(const CreatureTypes &s);
-        CreatureTypes& operator=(const CreatureTypes &s);
+        CreaTypeManager(const CreaTypeManager &s);
+        CreaTypeManager& operator=(const CreaTypeManager &s);
 
-        vector<CreaTyp> *types;
+        vector<CreaType> *types;
 
 };
 
 
-#endif // CREATURE_TYPES_HPP
+#endif // CREATYPEMANAGER_HPP
