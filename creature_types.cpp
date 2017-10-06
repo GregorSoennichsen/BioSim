@@ -32,7 +32,7 @@ using namespace std;
  *
  * In the end a short output containing some statistical informations is printed on the console.
  */
-CreatureTypes::CreatureTypes(const string fileName) :
+CreatureTypes::CreatureTypes(const string filePath) :
 
     types(new vector<CreaTyp>)
 {
@@ -40,7 +40,7 @@ CreatureTypes::CreatureTypes(const string fileName) :
     unsigned int STATUS_READ_LINES = 0;
     unsigned int STATUS_NUMBER_OF_LINES;
 
-    vector<string> data = getFileLines(fileName);
+    vector<string> data = getFileLines(filePath);
     STATUS_NUMBER_OF_LINES = data.size();
 
     unsigned int i;
@@ -137,10 +137,10 @@ CreatureTypes::CreatureTypes(const string fileName) :
     }
 
     // some statistics
-    cout << "--------" << endl;
+    cout << "---- Read creature types from: " << filePath << " ----" << endl;
     cout << "number of lines:\t\t"              << STATUS_NUMBER_OF_LINES << endl;
     cout << "successfull read operations:\t"    << STATUS_READ_LINES << endl;
-    cout << "failed read operations:\t\t"       << STATUS_NUMBER_OF_LINES - STATUS_READ_LINES << endl;
+    cout << "failed read operations:\t"       << STATUS_NUMBER_OF_LINES - STATUS_READ_LINES << endl;
     cout << "--------" << endl;
 
 }
@@ -167,7 +167,7 @@ CreatureTypes::~CreatureTypes() {
  */
 void CreatureTypes::addType(CreaTyp type) {
 
-    types -> push_back(type);
+    types->push_back(type);
 }
 
 
@@ -181,10 +181,10 @@ void CreatureTypes::addType(CreaTyp type) {
 void CreatureTypes::deleteType(const string name) {
 
     unsigned int i;
-    for(i=0; i < types -> size(); i++) {
+    for(i=0; i < types->size(); i++) {
 
-        if(types -> at(i).name == name) {
-            types -> erase(types -> begin() + i);
+        if(types->at(i).name == name) {
+            types->erase(types->begin() + i);
             return;
         }
     }
@@ -205,7 +205,7 @@ vector<string> CreatureTypes::getTypeNames() {
 
     unsigned int i;
     for(i=0; i < types->size(); i++)
-        typeNames.push_back(types -> at(i).name);
+        typeNames.push_back(types->at(i).name);
 
     return typeNames;
 }
@@ -221,10 +221,10 @@ vector<string> CreatureTypes::getTypeNames() {
 CreaTyp CreatureTypes::getTypeInfo(const string name) {
 
     unsigned int i;
-    for(i=0; i < types -> size(); i++) {
+    for(i=0; i < types->size(); i++) {
 
-        if(types -> at(i).name == name) {
-            return types -> at(i);
+        if(types->at(i).name == name) {
+            return types->at(i);
         }
     }
     throw runtime_error("name of creature type not found");
@@ -241,16 +241,16 @@ string CreatureTypes::getText() {
 
     string text;
     unsigned int i;
-    for(i=0; i < types -> size(); i++) {
+    for(i=0; i < types->size(); i++) {
 
-        text += "Name:\t\t" +     types -> at(i).name + "\n";
-        text += "Strength:\t" + to_string(types -> at(i).strength) + "\n";
-        text += "Speed:\t\t" +    to_string(types -> at(i).speed) + "\n";
-        text += "Lifetime:\t" + to_string(types -> at(i).lifetime) + "\n";
-        text += "Image:\t\t" +    types -> at(i).image + "\n";
+        text += "Name:\t\t" +     types->at(i).name + "\n";
+        text += "Strength:\t" + to_string(types->at(i).strength) + "\n";
+        text += "Speed:\t\t" +    to_string(types->at(i).speed) + "\n";
+        text += "Lifetime:\t" + to_string(types->at(i).lifetime) + "\n";
+        text += "Image:\t\t" +    types->at(i).image + "\n";
         text += "Properities:\t";
 
-        for(const string &s : types -> at(i).properities)
+        for(const string &s : types->at(i).properities)
             text += s + " ";
 
         text += "\n\n";

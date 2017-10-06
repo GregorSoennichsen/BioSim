@@ -36,17 +36,18 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow),
     creaTypes(new CreatureTypes("CreatureTable.txt"))
 {
+    setWindowModality(Qt::WindowModality::ApplicationModal);
 
-    ui -> setupUi(this);
+    ui->setupUi(this);
     initCreatureChoice();
 
-    connect(ui -> comboCrea,      SIGNAL(currentTextChanged(QString)), this, SLOT(updateCreatureInfo(QString)));
-    connect(ui -> buttonPlace,    SIGNAL(pressed()), this, SLOT(buttonPlacePressed()));
-    connect(ui -> buttonStart,    SIGNAL(pressed()), this, SLOT(buttonStartPressed()));
-    connect(ui -> buttonStop,     SIGNAL(pressed()), this, SLOT(buttonStopPressed()));
-    connect(ui -> buttonStep,     SIGNAL(pressed()), this, SLOT(buttonStepPressed()));
-    connect(ui -> scrollVertSim,  SIGNAL(sliderMoved(int)), this, SLOT(scrollVertMoved(int)));
-    connect(ui -> scrollHorizSim, SIGNAL(sliderMoved(int)), this, SLOT(scrollHorizMoved(int)));
+    connect(ui->comboCrea,      SIGNAL(currentTextChanged(QString)), this, SLOT(updateCreatureInfo(QString)));
+    connect(ui->buttonPlace,    SIGNAL(pressed()), this, SLOT(buttonPlacePressed()));
+    connect(ui->buttonStart,    SIGNAL(pressed()), this, SLOT(buttonStartPressed()));
+    connect(ui->buttonStop,     SIGNAL(pressed()), this, SLOT(buttonStopPressed()));
+    connect(ui->buttonStep,     SIGNAL(pressed()), this, SLOT(buttonStepPressed()));
+    connect(ui->scrollVertSim,  SIGNAL(sliderMoved(int)), this, SLOT(scrollVertMoved(int)));
+    connect(ui->scrollHorizSim, SIGNAL(sliderMoved(int)), this, SLOT(scrollHorizMoved(int)));
 }
 
 
@@ -78,7 +79,7 @@ void MainWindow::initCreatureChoice() {
 
     unsigned int i;
     for(i=0; i < creaTypesNames.size(); i++)
-        ui -> comboCrea -> addItem( QString(creaTypesNames[i].c_str()) );
+        ui->comboCrea->addItem( QString(creaTypesNames[i].c_str()) );
 
     if(creaTypesNames.size() > 0)
         updateCreatureInfo( QString(creaTypesNames[0].c_str()) );
@@ -100,17 +101,17 @@ void MainWindow::updateCreatureInfo(QString creaName) {
 
     try {
 
-        CreaTyp type = creaTypes -> getTypeInfo(creaName.toStdString());
+        CreaTyp type = creaTypes->getTypeInfo(creaName.toStdString());
 
-        ui -> lineCreaStren -> setText( QString(to_string(type.strength).c_str()) );
-        ui -> lineCreaSpe   -> setText( QString(to_string(type.speed).c_str()) );
-        ui -> lineCreaLife  -> setText( QString(to_string(type.lifetime).c_str()) );
+        ui->lineCreaStren->setText( QString(to_string(type.strength).c_str()) );
+        ui->lineCreaSpe  ->setText( QString(to_string(type.speed).c_str()) );
+        ui->lineCreaLife ->setText( QString(to_string(type.lifetime).c_str()) );
 
         string props;
         for(const string &s : type.properities)
             props += s + " ";
 
-        ui -> lineCreaProp  -> setText( QString(props.c_str()) );
+        ui->lineCreaProp ->setText( QString(props.c_str()) );
 
     }
 
@@ -182,6 +183,9 @@ void MainWindow::buttonStepPressed() {
  */
 void MainWindow::scrollVertMoved(int newValue) {
 
+    // TODO: Scrolling
+    (void)newValue;
+
 }
 
 
@@ -193,5 +197,7 @@ void MainWindow::scrollVertMoved(int newValue) {
  * Does nothing, functionality is added later.
  */
 void MainWindow::scrollHorizMoved(int newValue) {
+
+    (void)newValue;
 
 }

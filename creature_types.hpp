@@ -42,7 +42,7 @@ class CreatureTypes{
 
     public:
 
-        explicit CreatureTypes(const string fileName);
+        explicit CreatureTypes(const string filePath);
         ~CreatureTypes();
 
         void addType(CreaTyp type);

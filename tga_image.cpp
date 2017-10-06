@@ -55,10 +55,10 @@ TgaImage::TgaImage(string filePath) {
         throw runtime_error("tga header could not be read");
     }
 
-    if(header -> imageIDlength != 0   ||
-       header -> colormapType != 0    || header -> colormapBegin != 0 || header -> colormapLength != 0 ||
-       header -> imageType != 2       || header -> xOrigin != 0       || header -> yOrigin != 0        ||
-       !(header -> bitsPerPoint == 24 || header -> bitsPerPoint == 32))
+    if(header->imageIDlength != 0   ||
+       header->colormapType != 0    || header->colormapBegin != 0 || header->colormapLength != 0 ||
+       header->imageType != 2       || header->xOrigin != 0       || header->yOrigin != 0        ||
+       !(header->bitsPerPoint == 24 || header->bitsPerPoint == 32))
     {
         myFile.close();
         throw runtime_error("image format is not supported");
@@ -131,17 +131,17 @@ void TgaImage::printHeader() {
 
 
     cout << "--------" << endl;
-    cout << "Image-ID length:\t"        << (short) header -> imageIDlength << endl;
-    cout << "Color-Pallete type:\t"     << (short) header -> colormapType << endl;
-    cout << "Imagetype:\t\t"            << (short) header -> imageType << endl;
-    cout << "Pallette-Begin:\t\t"       << header -> colormapBegin << endl;
-    cout << "Pallette-Length:\t"        << header -> colormapLength << endl;
-    cout << "Size of colormap-entry:\t" << (short) header -> sizeOfEntryInPallette << endl;
-    cout << "x-Origin:\t\t"             << header -> xOrigin << endl;
-    cout << "y-Origin:\t\t"             << header -> yOrigin << endl;
-    cout << "Image width:\t\t"          << header -> width << endl;
-    cout << "Image height:\t\t"         << header -> height << endl;
-    cout << "Bits per point:\t\t"       << (short) header -> bitsPerPoint << endl;
+    cout << "Image-ID length:\t"        << (short) header->imageIDlength << endl;
+    cout << "Color-Pallete type:\t"     << (short) header->colormapType << endl;
+    cout << "Imagetype:\t\t"            << (short) header->imageType << endl;
+    cout << "Pallette-Begin:\t\t"       << header->colormapBegin << endl;
+    cout << "Pallette-Length:\t"        << header->colormapLength << endl;
+    cout << "Size of colormap-entry:\t" << (short) header->sizeOfEntryInPallette << endl;
+    cout << "x-Origin:\t\t"             << header->xOrigin << endl;
+    cout << "y-Origin:\t\t"             << header->yOrigin << endl;
+    cout << "Image width:\t\t"          << header->width << endl;
+    cout << "Image height:\t\t"         << header->height << endl;
+    cout << "Bits per point:\t\t"       << (short) header->bitsPerPoint << endl;
     cout << "--------" << endl;
 
 }
@@ -159,22 +159,22 @@ struct tgaHeader *TgaImage::readHeader(ifstream *myFile) {
 
     struct tgaHeader *header = new struct tgaHeader;
 
-    myFile -> read((char *) &header -> imageIDlength, 1);
-    myFile -> read((char *) &header -> colormapType, 1);
-    myFile -> read((char *) &header -> imageType, 1);
+    myFile->read((char *) &header->imageIDlength, 1);
+    myFile->read((char *) &header->colormapType, 1);
+    myFile->read((char *) &header->imageType, 1);
 
-    myFile -> read((char *) &header -> colormapBegin, 2);
-    myFile -> read((char *) &header -> colormapLength, 2);
+    myFile->read((char *) &header->colormapBegin, 2);
+    myFile->read((char *) &header->colormapLength, 2);
 
-    myFile -> read((char *) &header -> sizeOfEntryInPallette, 1);
+    myFile->read((char *) &header->sizeOfEntryInPallette, 1);
 
-    myFile -> read((char *) &header -> xOrigin, 2);
-    myFile -> read((char *) &header -> yOrigin, 2);
-    myFile -> read((char *) &header -> width, 2);
-    myFile -> read((char *) &header -> height, 2);
+    myFile->read((char *) &header->xOrigin, 2);
+    myFile->read((char *) &header->yOrigin, 2);
+    myFile->read((char *) &header->width, 2);
+    myFile->read((char *) &header->height, 2);
 
-    myFile -> read((char *) &header -> bitsPerPoint, 1);
-    myFile -> read((char *) &header -> attributeByte, 1);
+    myFile->read((char *) &header->bitsPerPoint, 1);
+    myFile->read((char *) &header->attributeByte, 1);
 
     return header;
 
@@ -194,12 +194,12 @@ struct tgaHeader *TgaImage::readHeader(ifstream *myFile) {
  */
 vector<uint8_t> *TgaImage::readPixels(ifstream *myFile, tgaHeader *header) {
 
-    uint16_t bytesPerPoint = header -> bitsPerPoint / 8;
-    unsigned long long imSize = ((long long) header -> width) * header -> height * bytesPerPoint;
+    uint16_t bytesPerPoint = header->bitsPerPoint / 8;
+    unsigned long long imSize = ((long long) header->width) * header->height * bytesPerPoint;
 
     vector<uint8_t> * imData = new vector<uint8_t> (imSize);
 
-    myFile -> read((char *) imData -> data(), imSize);
+    myFile->read((char *) imData->data(), imSize);
 
     return imData;
 }

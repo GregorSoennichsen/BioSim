@@ -12,9 +12,17 @@
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
 
+#include <QOpenGLVertexArrayObject>
+#include <QOpenGLBuffer>
+#include <QOpenGLShaderProgram>
+
+#include "tga_image.hpp"
+
 
 
 class SimulationArea : public QOpenGLWidget, protected QOpenGLFunctions {
+
+    Q_OBJECT
 
     public:
 
@@ -23,9 +31,21 @@ class SimulationArea : public QOpenGLWidget, protected QOpenGLFunctions {
 
     protected:
 
-        void initializeGL();
-        void resizeGL(int w, int h);
-        void paintGL();
+        void initializeGL() override;
+        void resizeGL(int w, int h) override;
+        void paintGL() override;
+
+    private:
+
+        TgaImage *image;
+
+        QOpenGLBuffer buffer;
+        QOpenGLVertexArrayObject vertexArray;
+        QOpenGLShaderProgram *shaderProgram;
+
+        GLuint posAttr;
+        GLuint colAttr;
+        GLuint matrixUniform;
 
 };
 
