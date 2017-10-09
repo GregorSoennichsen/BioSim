@@ -41,6 +41,11 @@ using namespace std;
  */
 TgaImage::TgaImage(string filePath) {
 
+    // ****************** LOG ****************************
+    cout << "--------" << endl;
+    cout << "Read TGA Image from: " << filePath << endl;
+    // ***************************************************
+
     ifstream myFile(filePath);
 
     if(!myFile.is_open()) {
@@ -78,20 +83,8 @@ TgaImage::TgaImage(string filePath) {
 
     myFile.close();
 
-
     // ****************** LOG ****************************
-    cout << "---- Read successfully TGA Image from: " << filePath << " ----" << endl;
-//    cout << "Image-ID length:\t\t"        << (short) header->imageIDlength << endl;
-//    cout << "Color-Pallete type:\t\t"     << (short) header->colormapType << endl;
-//    cout << "Imagetype:\t\t"            << (short) header->imageType << endl;
-//    cout << "Pallette-Begin:\t\t"       << header->colormapBegin << endl;
-//    cout << "Pallette-Length:\t\t"        << header->colormapLength << endl;
-//    cout << "Size of colormap-entry:\t" << (short) header->sizeOfEntryInPallette << endl;
-//    cout << "x-Origin:\t\t\t"             << header->xOrigin << endl;
-//    cout << "y-Origin:\t\t\t"             << header->yOrigin << endl;
-//    cout << "Image width:\t\t"          << header->width << endl;
-//    cout << "Image height:\t\t"         << header->height << endl;
-//    cout << "Bits per point:\t\t"       << (short) header->bitsPerPoint << endl;
+    cout << "Read successfully read TGA Image" << endl;
     cout << "--------" << endl << endl;
     // ***************************************************
 
@@ -182,16 +175,46 @@ struct tgaHeader *TgaImage::readHeader(ifstream *myFile) {
  * This static method reads the pixel colors following the first 18 bytes, the image ID and
  * the colormap. Note that image ID and colormap are supposed to be not existent.
  * Size and kind of the pixel colors are determined in the passed header, the informations
- * are returned as a pointer on a vector of bytes.
+ * are returned as a pointer on a vector of bytes. The image data are stored 32-Bit aligned,
+ * meaning a pixel has always 32 bit, even if there is originally no alpha channel.
  */
 vector<uint8_t> *TgaImage::readPixels(ifstream *myFile, tgaHeader *header) {
 
     uint16_t bytesPerPoint = header->bitsPerPoint / 8;
-    unsigned long long imSize = ((long long) header->width) * header->height * bytesPerPoint;
+    unsigned long long storeSize      = static_cast<long long> (header->width) * header->height * 4;
+    unsigned long long imSize         = static_cast<long long> (header->width) * header->height * bytesPerPoint;
+    unsigned long long numberOfPixels = static_cast<long long> (header->width) * header->height;
 
-    vector<uint8_t> * imData = new vector<uint8_t> (imSize);
+    //
+    cout << "bpp: " << bytesPerPoint << endl;
+    cout << "w x h: " << header->width << " x " << header->height << endl;
+    cout << "stSize: " << storeSize << endl;
+    cout << "imSize: " << imSize << endl;
+    cout << "nPixels: " << numberOfPixels << endl;
+    //
 
-    myFile->read((char *) imData->data(), imSize);
+    vector<uint8_t> * imRawData = new vector<uint8_t> (imSize);
+    myFile->read((char *) imRawData->data(), imSize);
 
-    return imData;
+    if(bytesPerPoint == 4)
+        return imRawData;
+
+    else if(bytesPerPoint == 3) {
+
+        vector<uint8_t> * imData = new vector<uint8_t> (storeSize);
+        uint8_t stub = 0;
+
+        unsigned long long i;
+        for(i=0; i < numberOfPixels; i++) {
+
+            imData->push_back( imRawData->at(3*i + 0) );
+            imData->push_back( imRawData->at(3*i + 1) );
+            imData->push_back( imRawData->at(3*i + 2) );
+            imData->push_back( stub );
+        }
+        return imData;
+    }
+
+    else
+        throw runtime_error("bpp format not supported");
 }

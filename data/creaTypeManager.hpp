@@ -1,5 +1,5 @@
 /*
- * creaturetypes.hpp
+ * creaTypeManager.hpp
  *
  *  Created on: 01.09.2017
  *      Author: Gregor Soennichsen
@@ -11,6 +11,7 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <tuple>
 
 using namespace std;
 
@@ -48,6 +49,7 @@ class CreaTypeManager{
         void addType(CreaType type);
         void deleteType(const string name);
         vector<string> getTypeNames();
+        vector<CreaType> *getTypes();
         CreaType getTypeInfo(const string name);
         string getText();
 

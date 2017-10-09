@@ -15,6 +15,7 @@
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLBuffer>
 #include <QOpenGLShaderProgram>
+#include <QOpenGLTexture>
 
 #include "../data/tga_image.hpp"
 
@@ -45,15 +46,20 @@ class SimulationArea : public QOpenGLWidget, protected QOpenGLFunctions {
 
     private:
 
-        TgaImage *image;
-
         QOpenGLBuffer buffer;
         QOpenGLVertexArrayObject vertexArray;
         QOpenGLShaderProgram *shaderProgram;
 
-        GLuint posAttr;
-        GLuint colAttr;
-        GLuint matrixUniform;
+        QOpenGLTexture *texture;
+
+        inline void log() {
+            // ****************** LOG ****************************
+            cout << "--------" << endl;
+            cout << "OpenGL Version: " << glGetString((GL_VERSION)) << endl;
+            cout << "--------" << endl << endl;
+            // ***************************************************
+        }
+
 
         inline float rcTOgl_x(int x) {
 

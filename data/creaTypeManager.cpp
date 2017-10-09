@@ -1,5 +1,5 @@
 /*
- * creaturetypes.cpp
+ * creaTypeManager.cpp
  *
  *  Created on: 01.09.2017
  *      Author: Gregor Soennichsen
@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <tuple>
 
 #include "stringFile_manip.hpp"
 
@@ -209,6 +210,19 @@ vector<string> CreaTypeManager::getTypeNames() {
         typeNames.push_back(types->at(i).name);
 
     return typeNames;
+}
+
+
+
+/**
+ * @brief CreaTypeManager::getTypes     Returns a pointer to the vector of all stored types.
+ *
+ * Returns a pointer to the vector of all stored types.
+ */
+vector<CreaType> *CreaTypeManager::getTypes() {
+
+    return types;
+
 }
 
 

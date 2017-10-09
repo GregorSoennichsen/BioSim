@@ -11,6 +11,7 @@
 #include <QMainWindow>
 
 #include "data/creaTypeManager.hpp"
+#include "graphics/tileManager.hpp"
 
 namespace Ui {
     class MainWindow;
@@ -39,6 +40,7 @@ class MainWindow : public QMainWindow
 
         Ui::MainWindow *ui;
         CreaTypeManager *creaTypeManager;
+        TileManager *tileManager;
 
     private slots:
 

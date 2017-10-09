@@ -15,6 +15,7 @@
 #include "mainwindow.hpp"
 #include "graphics/ui_mainwindow.hpp"
 #include "data/creaTypeManager.hpp"
+#include "graphics/tileManager.hpp"
 
 using namespace std;
 
@@ -33,7 +34,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    creaTypeManager(new CreaTypeManager("ressources/CreatureTable.txt"))
+    creaTypeManager(new CreaTypeManager("ressources/CreatureTable.txt")),
+    tileManager(new TileManager(32, 32, 351, 351, creaTypeManager->getTypes()))
 {
     setWindowModality(Qt::WindowModality::ApplicationModal);
 
@@ -61,6 +63,7 @@ MainWindow::~MainWindow()
 {
     delete ui;
     delete creaTypeManager;
+    delete tileManager;
 }
 
 

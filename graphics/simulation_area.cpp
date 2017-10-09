@@ -20,84 +20,70 @@ using namespace std;
 
 
 
-// Create a colored triangle
+// create a textured square
 
-//const float vertexData[6][3] = {
-//   {  0.00f,  0.75f, 1.0f },  { 1.0f, 0.0f, 0.0f },
-//   { -0.75f, -0.75f, 1.0f },  { 0.0f, 1.0f, 0.0f },
-//   {  0.75f, -0.75f, 1.0f },  { 0.0f, 0.0f, 1.0f }
-//};
+float vertexData[20] = {
 
-//const int positionTupelSize = 3;
-//const int colorTupelSize = 3;
-//const int sizeofVertex  = sizeof(float) * 6;
-//const int firstPosition = sizeof(float) * 0;
-//const int firstColor    = sizeof(float) * 3;
-//const int numberOfVertices = 3;
-
-
-
-// create a colored square
-
-const float vertexData[12][3] = {
-
-   { -0.5f,  0.5f, 1.0f },  { 1.0f, 0.0f, 0.0f },
-   { -0.5f, -0.5f, 1.0f },  { 0.0f, 1.0f, 0.0f },
-   {  0.5f, -0.5f, 1.0f },  { 0.0f, 0.0f, 1.0f },
-
-   { -0.5f,  0.5f, 1.0f },  { 1.0f, 0.0f, 0.0f },
-   {  0.5f, -0.5f, 1.0f },  { 0.0f, 0.0f, 1.0f },
-   {  0.5f,  0.5f, 1.0f },  { 0.0f, 1.0f, 0.0f }
+    -0.4f,  0.4f, 1.0f,   0.0f, 0.0f,     // top left
+     0.4f,  0.4f, 1.0f,   1.0f, 0.0f,     // bottom left
+     0.4f, -0.4f, 1.0f,   1.0f, 1.0f,     // bottom right
+    -0.4f, -0.4f, 1.0f,   0.0f, 1.0f      // top right
 
 };
 
+const int numberOfElemPos = 3;      // floats in Pos-3D-Coord
+const int numberOfElemTex = 2;      // floats in Tex-3D-Coord
 
-// geometry().width()  geometry().height()
+const int sizeOfVertex  = sizeof(float) * (numberOfElemPos + numberOfElemTex);      // sizeof (Pos-3D-Koord + Tex-2D-Coord)
 
+const int offsetPos = sizeof(float) * 0;                    // direkt an 0
+const int offsetTex = sizeof(float) * (numberOfElemPos);    // direkt nach der 1. Pos-3D-Koord
 
+const int sizeOfPos = numberOfElemPos * sizeof(float);
+const int sizeOfTex = numberOfElemTex * sizeof(float);
 
+const int stridePos = sizeOfVertex;
+const int strideTex = sizeOfVertex;
 
-const int positionTupelSize = 3;             // 3D-Coord
-const int colorTupelSize = 3;                // RGB
-const int sizeOfVertex  = sizeof(float) * 6; // 3D-Koord mit RGB
-const int firstPosition = sizeof(float) * 0; // direkt an 0
-const int firstColor    = sizeof(float) * 3; // eine 3D-Koord nach 0
-const int numberOfVertices = 6;              // Anzahl (Koord, Color) Paare
+const int numberOfVertices = 4;                             // Anzahl (Pos, Tex) Paare
 
 
 
 // Create shader source code
 
 const char *vertexShaderSource =
-        "#version 330\n"
-        "layout(location = 0) in vec3 position;\n"
-        "layout(location = 1) in vec3 color;\n"
-        "out vec4 vColor;\n"
-        "\n"
-        "void main()\n"
-        "{\n"
-        "  gl_Position = vec4(position, 1.0);\n"
-        "  vColor = vec4(color, 1.0f);\n"
-        "}\n"
-        "\n";
+        "#version 330 core\n"
+
+        "layout(location = 0) in vec4 aVertexCoord;"
+        "layout(location = 1) in vec4 aTexCoord;"
+
+        "varying mediump vec4 vTexCoord;"
+
+        "uniform mediump mat4 matrix;"
+
+        "void main()"
+        "{"
+        "       gl_Position = matrix * aVertexCoord;"
+        "       vTexCoord   = aTexCoord;"
+        "}";
 
 const char *fragmentShaderSource =
-        "#version 330\n"
-        "in highp vec4 vColor;\n"
-        "out highp vec4 fColor;\n"
-        "\n"
-        "void main()\n"
-        "{\n"
-        "   fColor = vColor;\n"
-        "}\n"
-        "\n";
+        "#version 330 core\n"
+
+        "uniform sampler2D texSampler;"
+
+        "varying mediump vec4 vTexCoord;"
+
+        "void main()"
+        "{"
+        "       gl_FragColor = texture2D(texSampler, vTexCoord.st);"
+        "}";
 
 
 
 SimulationArea::SimulationArea(QWidget *parent) :
 
-    QOpenGLWidget(parent),
-    image(new TgaImage("ressources/terrain/shallow_water.tga"))
+    QOpenGLWidget(parent)
 {
 }
 
@@ -105,10 +91,10 @@ SimulationArea::SimulationArea(QWidget *parent) :
 
 SimulationArea::~SimulationArea() {
 
-    delete image;
     vertexArray.destroy();
     buffer.destroy();
     delete shaderProgram;
+    delete texture;
 }
 
 
@@ -116,9 +102,13 @@ SimulationArea::~SimulationArea() {
 void SimulationArea::initializeGL() {
 
     initializeOpenGLFunctions();
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-    // build and compile shader program (Do not release until VAO is created)
+    log();
+
+    // Init Shader Programs
 
     shaderProgram = new QOpenGLShaderProgram();
     shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource);
@@ -126,10 +116,7 @@ void SimulationArea::initializeGL() {
     shaderProgram->link();
     shaderProgram->bind();
 
-    // Create Buffer (Do not release until VAO is created)
-
-//    for(int i=0; i <= geometry().width()/TILES_W; i++)        // ------------ tile position test
-//        cout << i << " " << rcTOgl_x(i) << endl;
+    // Create Buffer and buffer Vertex Coordinates
 
     buffer.create();
     buffer.bind();
@@ -140,12 +127,27 @@ void SimulationArea::initializeGL() {
 
     vertexArray.create();
     vertexArray.bind();
+
+    // Load Texture
+
+    texture = new QOpenGLTexture(QImage(QString("ressources/Dondarrion.png")).mirrored());
+    texture->setMinMagFilters(QOpenGLTexture::Nearest, QOpenGLTexture::Nearest);
+
+    // Configure Shader Input
+
+    shaderProgram->setUniformValue("texture", 0);
+
+    QMatrix4x4 m;
+    m.ortho(-0.5f, +0.5f, +0.5f, -0.5f, 4.0f, 5.0f);
+    m.translate(0.0f, 0.0f, -5.0f);
+    shaderProgram->setUniformValue("matrix",  m);
+
     shaderProgram->enableAttributeArray(0);
     shaderProgram->enableAttributeArray(1);
-    shaderProgram->setAttributeBuffer(0, GL_FLOAT, firstPosition, positionTupelSize, sizeOfVertex);
-    shaderProgram->setAttributeBuffer(1, GL_FLOAT, firstColor,    colorTupelSize,    sizeOfVertex);
+    shaderProgram->setAttributeBuffer(0, GL_FLOAT, offsetPos, numberOfElemPos, stridePos);
+    shaderProgram->setAttributeBuffer(1, GL_FLOAT, offsetTex, numberOfElemTex, strideTex);
 
-    // Release (unbind) all
+    // Release all
 
     vertexArray.release();
     buffer.release();
@@ -166,16 +168,19 @@ void SimulationArea::resizeGL(int w, int h) {
 
 void SimulationArea::paintGL() {
 
-    // Clear
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // Render using our shader
+    // Render Vertices and Textures
+
     shaderProgram->bind();
-
     vertexArray.bind();
-    glDrawArrays(GL_TRIANGLES, 0, numberOfVertices);
-    vertexArray.release();
+    texture->bind();
 
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+
+    texture->release();
+    vertexArray.release();
     shaderProgram->release();
 
 }
