@@ -1,13 +1,11 @@
 #include <QImage>
 #include <QOpenGLTexture>
 
+#include <iostream>
 #include <string>
 #include <vector>
-#include <map>
-#include <tuple>
 
 #include "../ressourcesloc.hpp"
-#include "../data/tga_image.hpp"
 #include "../data/creaTypeManager.hpp"
 
 #include "tileManager.hpp"
@@ -22,8 +20,11 @@ TileManager::TileManager(unsigned int tile_h,  unsigned int tile_w,  unsigned in
     field_height(field_h),
     field_width(field_w),
 
-    numberOfTiles_Y(field_h / tile_h),
-    numberOfTiles_X(field_w / tile_w),
+    numberOfTiles_Y(field_h / tile_h + 1),
+    numberOfTiles_X(field_w / tile_w + 1),
+
+    scroll_right(0.0),
+    scroll_bottom(0.0),
 
     creatureTypeInfos(creatureTypeInfos)
 {
@@ -69,14 +70,14 @@ Tile *TileManager::getTileAt(int x, int y) {
 
 
 
-float TileManager::rasterTOopengl_X(int x) {
-    return ( (2 * x * tile_width) / static_cast<float> (field_width) ) - 1;
+float TileManager::rasterTOopengl_X(int x, float p) {
+    return ( (2 * (x * tile_width + p - scroll_right)) / static_cast<float> (field_width) ) - 1;
 }
 
 
 
-float TileManager::rasterTOopengl_Y(int y) {
-    return ( (2 * y * tile_height) / static_cast<float> (field_height) ) - 1;
+float TileManager::rasterTOopengl_Y(int y, float p) {
+    return ( (2 * (y * tile_height + p - scroll_bottom)) / static_cast<float> (field_height) ) - 1;
 }
 
 
@@ -104,13 +105,13 @@ void TileManager::generateField() {
     for(y=0; y<numberOfTiles_Y; y++) {
         for(x=0; x<numberOfTiles_X; x++) {
 
-            field[y][x].terrainImage = &(terrainImages[1]);
+            field[y][x].terrainImage = &(terrainImages[(x+y*y*x)%4]);
 
             multVertexData(field[y][x].quadData,
-                           rasterTOopengl_Y(y),
-                           rasterTOopengl_Y(y+1),
-                           rasterTOopengl_X(x),
-                           rasterTOopengl_X(x+1));
+                           rasterTOopengl_Y(y,   1.0),
+                           rasterTOopengl_Y(y+1, 0.0),
+                           rasterTOopengl_X(x,   1.0),
+                           rasterTOopengl_X(x+1, 0.0));
 
         }
     }
@@ -142,13 +143,13 @@ void TileManager::loadCreatureImages(vector<CreaType> *creatureTypeInfos) {
 
 
 
-void TileManager::loadTerrainImages() {
+void TileManager::loadTerrainImages() {         // "deep_sea", "sand",
 
-    string terrainNames[6] = { "deep_sea", "earth", "rocks", "sand", "shallow_water", "snow" };
+    string terrainNames[6] = { "earth", "rocks", "shallow_water", "snow" };
 
     unsigned short i;
 
-    for(i=0; i < 6; i++) {
+    for(i=0; i < 4; i++) {
 
         TerrainImage im;
 

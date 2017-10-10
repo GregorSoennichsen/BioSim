@@ -6,8 +6,6 @@
 
 #include <string>
 #include <vector>
-#include <map>
-#include <tuple>
 
 #include "../data/tga_image.hpp"
 #include "../data/creaTypeManager.hpp"
@@ -92,11 +90,14 @@ class TileManager {
         unsigned int numberOfTiles_Y;
         unsigned int numberOfTiles_X;
 
+        float scroll_right;
+        float scroll_bottom;
+
         vector<vector<Tile>> field;     // This matrix represents the field, where every Tile links to all
                                         // image instances it needs
 
-        inline float rasterTOopengl_X(int x);
-        inline float rasterTOopengl_Y(int y);
+        inline float rasterTOopengl_X(int x, float p);
+        inline float rasterTOopengl_Y(int y, float p);
         inline void multVertexData(float data[], float xLef, float xRig, float yTop, float yBot);
         void generateField();
 

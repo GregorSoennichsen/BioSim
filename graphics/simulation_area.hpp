@@ -59,8 +59,6 @@ class SimulationArea : public QOpenGLWidget, protected QOpenGLFunctions {
         QOpenGLVertexArrayObject vertexArray;
         QOpenGLShaderProgram *shaderProgram;
 
-        QOpenGLTexture *texture;
-
         inline void logGLVersion() {
             // ****************** LOG ****************************
             cout << "--------" << endl;

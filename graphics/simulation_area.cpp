@@ -86,8 +86,7 @@ const char *fragmentShaderSource =
 SimulationArea::SimulationArea(QWidget *parent) :
 
     QOpenGLWidget(parent),
-    tileManager(0),
-    texture(0)
+    tileManager(0)
 {
 }
 
@@ -112,7 +111,6 @@ void SimulationArea::initializeGL() {
     logGLVersion();
 
     tileManager->init();
-    texture = tileManager->getTileAt(1,1)->terrainImage->texture;
 
     // Init Shader Programs
 
@@ -131,11 +129,16 @@ void SimulationArea::initializeGL() {
     vector<float> vertexData;
     unsigned int i, x, y;
 
-    for(i=0; i<20; i++) {
-        vertexData.push_back(tileManager->getTileAt(1,1)->quadData[i] );
+    for(y=0; y < tileManager->getNumberOfTiles_Y(); y++) {
+        for(x=0; x < tileManager->getNumberOfTiles_X(); x++) {
+
+            for(i=0; i < 20; i++) {
+                vertexData.push_back( tileManager->getTileAt(x,y)->quadData[i] );
+            }
+        }
     }
 
-    buffer.allocate(vertexData.data(), vertexData.size() * sizeof(float)); // sizeOfVertex * numberOfVertices
+    buffer.allocate(vertexData.data(), vertexData.size() * sizeof(float));
 
     // Create Vertex Array Object
 
@@ -179,11 +182,22 @@ void SimulationArea::paintGL() {
 
     shaderProgram->bind();
     vertexArray.bind();
-    texture->bind();
 
-    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+    unsigned long long start = 0;
 
-    texture->release();
+    unsigned int x, y;
+    for(y=0; y < tileManager->getNumberOfTiles_Y(); y++) {
+        for(x=0; x < tileManager->getNumberOfTiles_X(); x++) {
+
+            tileManager->getTileAt(x,y)->terrainImage->texture->bind();
+
+            glDrawArrays(GL_TRIANGLE_FAN, start, 4);
+            start += sizeof(float);
+
+            tileManager->getTileAt(x,y)->terrainImage->texture->release();
+        }
+    }
+
     vertexArray.release();
     shaderProgram->release();
 
