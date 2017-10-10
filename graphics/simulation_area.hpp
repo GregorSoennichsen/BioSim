@@ -17,7 +17,12 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
 
+#include <vector>
+
 #include "../data/tga_image.hpp"
+#include "tileManager.hpp"
+
+using namespace std;
 
 
 
@@ -38,6 +43,8 @@ class SimulationArea : public QOpenGLWidget, protected QOpenGLFunctions {
         SimulationArea(QWidget *parent);
         ~SimulationArea();
 
+        void setTileManager(TileManager *manager) { tileManager = manager; }
+
     protected:
 
         void initializeGL() override;
@@ -46,25 +53,20 @@ class SimulationArea : public QOpenGLWidget, protected QOpenGLFunctions {
 
     private:
 
+        TileManager *tileManager;
+
         QOpenGLBuffer buffer;
         QOpenGLVertexArrayObject vertexArray;
         QOpenGLShaderProgram *shaderProgram;
 
         QOpenGLTexture *texture;
 
-        inline void log() {
+        inline void logGLVersion() {
             // ****************** LOG ****************************
             cout << "--------" << endl;
             cout << "OpenGL Version: " << glGetString((GL_VERSION)) << endl;
             cout << "--------" << endl << endl;
             // ***************************************************
-        }
-
-
-        inline float rcTOgl_x(int x) {
-
-            return ( (2 * x * TILES_W) / static_cast<float> (geometry().width()) ) - 1;
-
         }
 
 };

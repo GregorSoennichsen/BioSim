@@ -12,6 +12,7 @@
 #include <set>
 #include <tuple>
 
+#include "../ressourcesloc.hpp"
 #include "stringFile_manip.hpp"
 
 #include "creaTypeManager.hpp"
@@ -128,7 +129,7 @@ CreaTypeManager::CreaTypeManager(const string filePath) :
         // get the creature type's image-filepath
 
         type.image = line[5];
-        if(!isValidFilepath("ressources/creature_tiles/" + type.image)) {
+        if(!isValidFilepath(RESSOURCESLOC + "creature_tiles/" + type.image)) {
             cout << "line " << i + 1 << ": the filename is no valid filepath" << endl;
             continue;
         }

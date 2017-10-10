@@ -181,40 +181,49 @@ struct tgaHeader *TgaImage::readHeader(ifstream *myFile) {
 vector<uint8_t> *TgaImage::readPixels(ifstream *myFile, tgaHeader *header) {
 
     uint16_t bytesPerPoint = header->bitsPerPoint / 8;
-    unsigned long long storeSize      = static_cast<long long> (header->width) * header->height * 4;
     unsigned long long imSize         = static_cast<long long> (header->width) * header->height * bytesPerPoint;
     unsigned long long numberOfPixels = static_cast<long long> (header->width) * header->height;
 
     //
-    cout << "bpp: " << bytesPerPoint << endl;
-    cout << "w x h: " << header->width << " x " << header->height << endl;
-    cout << "stSize: " << storeSize << endl;
-    cout << "imSize: " << imSize << endl;
-    cout << "nPixels: " << numberOfPixels << endl;
+//    cout << "bpp: "     << bytesPerPoint << endl;
+//    cout << "w x h: "   << header->width << " x " << header->height << endl;
+//    cout << "imSize: "  << imSize << endl;
+//    cout << "nPixels: " << numberOfPixels << endl;
+//    logHeader(header);
     //
+
 
     vector<uint8_t> * imRawData = new vector<uint8_t> (imSize);
     myFile->read((char *) imRawData->data(), imSize);
 
-    if(bytesPerPoint == 4)
-        return imRawData;
 
-    else if(bytesPerPoint == 3) {
-
-        vector<uint8_t> * imData = new vector<uint8_t> (storeSize);
-        uint8_t stub = 0;
+    if(bytesPerPoint == 3) {
 
         unsigned long long i;
-        for(i=0; i < numberOfPixels; i++) {
+        for(i=0; i < imSize; i+=3) {
 
-            imData->push_back( imRawData->at(3*i + 0) );
-            imData->push_back( imRawData->at(3*i + 1) );
-            imData->push_back( imRawData->at(3*i + 2) );
-            imData->push_back( stub );
+            uint8_t t0 = imRawData->at(i+0);
+            uint8_t t1 = imRawData->at(i+1);
+            uint8_t t2 = imRawData->at(i+2);
+
+
+//            //
+//            cout << (i/3)/32 << " " << (i/3)%32 << " : " << (unsigned short) t2
+//                 << " " << (unsigned short) t1 << " " << (unsigned short) t0 << endl;
+//            //
+
+
+            (*imRawData)[i+0] = t2;
+            (*imRawData)[i+1] = t1;
+            (*imRawData)[i+2] = t0;
+
         }
-        return imData;
+        return imRawData;
     }
 
+    else if(bytesPerPoint == 4)
+        return imRawData;
+
     else
-        throw runtime_error("bpp format not supported");
+        throw runtime_error("format not supported");
 }

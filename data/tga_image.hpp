@@ -57,6 +57,23 @@ class TgaImage {
         vector<uint8_t> *getPixels();
         tgaHeader *getHeader();
 
+        static inline void logHeader(tgaHeader *header) {
+
+            cout << "imageIDlength:\t\t"        << (unsigned short) header->imageIDlength << endl;
+            cout << "colormapType:\t\t"         << (unsigned short) header->colormapType << endl;
+            cout << "imageType:\t\t"            << (unsigned short) header->imageType << endl;
+            cout << "colormapBegin:\t\t"        << (unsigned short) header->colormapBegin << endl;
+            cout << "colormapLength:\t\t"       << (unsigned short) header->colormapLength << endl;
+            cout << "sizeOfEntryInPallette:\t"  << (unsigned short) header->sizeOfEntryInPallette << endl;
+            cout << "xOrigin:\t\t\t"            << (unsigned short) header->xOrigin << endl;
+            cout << "yOrigin:\t\t\t"            << (unsigned short) header->yOrigin << endl;
+            cout << "width:\t\t\t"              << (unsigned short) header->width << endl;
+            cout << "height:\t\t\t"             << (unsigned short) header->height << endl;
+            cout << "bitsPerPoint:\t\t"         << (unsigned short) header->bitsPerPoint << endl;
+            cout << "attributeByte:\t\t"        << (unsigned short) header->attributeByte << endl << endl;
+
+        }
+
     private:
 
         TgaImage(const TgaImage& s);

@@ -12,10 +12,12 @@
 #include <string>
 #include <vector>
 
-#include "mainwindow.hpp"
+#include "ressourcesloc.hpp"
 #include "graphics/ui_mainwindow.hpp"
 #include "data/creaTypeManager.hpp"
 #include "graphics/tileManager.hpp"
+
+#include "mainwindow.hpp"
 
 using namespace std;
 
@@ -34,13 +36,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    creaTypeManager(new CreaTypeManager("ressources/CreatureTable.txt")),
+    creaTypeManager(new CreaTypeManager(RESSOURCESLOC + "CreatureTable.txt")),
     tileManager(new TileManager(32, 32, 351, 351, creaTypeManager->getTypes()))
 {
     setWindowModality(Qt::WindowModality::ApplicationModal);
 
     ui->setupUi(this);
     initCreatureChoice();
+    ui->openGLSimArea->setTileManager(tileManager);
 
     connect(ui->comboCrea,      SIGNAL(currentTextChanged(QString)), this, SLOT(updateCreatureInfo(QString)));
     connect(ui->buttonPlace,    SIGNAL(pressed()),                   this, SLOT(buttonPlacePressed()));

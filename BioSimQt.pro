@@ -15,14 +15,15 @@ LIBS   += -lopengl32
 LIBS   += -lglu32
 LIBS   += -lglut32
 
-SOURCES += main.cpp\
+SOURCES +=\
         mainwindow.cpp \
     data/stringFile_manip.cpp \
     data/tga_image.cpp \
     graphics/simulation_area.cpp \
     graphics/ui_mainwindow.cpp \
     data/creaTypeManager.cpp \
-    graphics/tileManager.cpp
+    graphics/tileManager.cpp \
+    main.cpp
 
 HEADERS  += mainwindow.hpp \
     data/stringFile_manip.hpp \
@@ -30,7 +31,8 @@ HEADERS  += mainwindow.hpp \
     graphics/simulation_area.hpp \
     graphics/ui_mainwindow.hpp \
     data/creaTypeManager.hpp \
-    graphics/tileManager.hpp
+    graphics/tileManager.hpp \
+    ressourcesloc.hpp
 
 FORMS    += \
     mainwindow.ui

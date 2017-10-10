@@ -12,6 +12,8 @@
 #include <iostream>
 #include <string>
 
+#include "ressourcesloc.hpp"
+#include "tileManager.hpp"
 #include "../data/tga_image.hpp"
 
 #include "simulation_area.hpp"
@@ -22,12 +24,12 @@ using namespace std;
 
 // create a textured square
 
-float vertexData[20] = {
+float quadData[20] = {
 
-    -0.4f,  0.4f, 1.0f,   0.0f, 0.0f,     // top left
-     0.4f,  0.4f, 1.0f,   1.0f, 0.0f,     // bottom left
-     0.4f, -0.4f, 1.0f,   1.0f, 1.0f,     // bottom right
-    -0.4f, -0.4f, 1.0f,   0.0f, 1.0f      // top right
+    -0.4f, -0.4f, -1.0f,   0.0f, 0.0f,     // top left
+     0.4f, -0.4f, -1.0f,   1.0f, 0.0f,     // bottom left
+     0.4f,  0.4f, -1.0f,   1.0f, 1.0f,     // bottom right
+    -0.4f,  0.4f, -1.0f,   0.0f, 1.0f      // top right
 
 };
 
@@ -59,11 +61,9 @@ const char *vertexShaderSource =
 
         "varying mediump vec4 vTexCoord;"
 
-        "uniform mediump mat4 matrix;"
-
         "void main()"
         "{"
-        "       gl_Position = matrix * aVertexCoord;"
+        "       gl_Position = aVertexCoord;"
         "       vTexCoord   = aTexCoord;"
         "}";
 
@@ -81,9 +81,13 @@ const char *fragmentShaderSource =
 
 
 
+
+
 SimulationArea::SimulationArea(QWidget *parent) :
 
-    QOpenGLWidget(parent)
+    QOpenGLWidget(parent),
+    tileManager(0),
+    texture(0)
 {
 }
 
@@ -94,7 +98,6 @@ SimulationArea::~SimulationArea() {
     vertexArray.destroy();
     buffer.destroy();
     delete shaderProgram;
-    delete texture;
 }
 
 
@@ -106,12 +109,15 @@ void SimulationArea::initializeGL() {
     glEnable(GL_CULL_FACE);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-    log();
+    logGLVersion();
+
+    tileManager->init();
+    texture = tileManager->getTileAt(1,1)->terrainImage->texture;
 
     // Init Shader Programs
 
     shaderProgram = new QOpenGLShaderProgram();
-    shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource);
+    shaderProgram->addShaderFromSourceCode(QOpenGLShader::Vertex,   vertexShaderSource);
     shaderProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource);
     shaderProgram->link();
     shaderProgram->bind();
@@ -121,26 +127,24 @@ void SimulationArea::initializeGL() {
     buffer.create();
     buffer.bind();
     buffer.setUsagePattern(QOpenGLBuffer::StaticDraw);
-    buffer.allocate(vertexData, sizeOfVertex * numberOfVertices);
+
+    vector<float> vertexData;
+    unsigned int i, x, y;
+
+    for(i=0; i<20; i++) {
+        vertexData.push_back(tileManager->getTileAt(1,1)->quadData[i] );
+    }
+
+    buffer.allocate(vertexData.data(), vertexData.size() * sizeof(float)); // sizeOfVertex * numberOfVertices
 
     // Create Vertex Array Object
 
     vertexArray.create();
     vertexArray.bind();
 
-    // Load Texture
-
-    texture = new QOpenGLTexture(QImage(QString("ressources/Dondarrion.png")).mirrored());
-    texture->setMinMagFilters(QOpenGLTexture::Nearest, QOpenGLTexture::Nearest);
-
     // Configure Shader Input
 
     shaderProgram->setUniformValue("texture", 0);
-
-    QMatrix4x4 m;
-    m.ortho(-0.5f, +0.5f, +0.5f, -0.5f, 4.0f, 5.0f);
-    m.translate(0.0f, 0.0f, -5.0f);
-    shaderProgram->setUniformValue("matrix",  m);
 
     shaderProgram->enableAttributeArray(0);
     shaderProgram->enableAttributeArray(1);
